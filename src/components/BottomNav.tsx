@@ -1,4 +1,4 @@
-import { LayoutDashboard, PlusCircle, Map, History, Bell, Shield } from "lucide-react";
+import { SquaresFour, PlusCircle, MapTrifold, Clock, Bell, Shield } from "@phosphor-icons/react";
 import { TRANSLATIONS } from "../translations";
 
 interface BottomNavProps {
@@ -12,10 +12,10 @@ export default function BottomNav({ currentTab, setTab, unreadCount, language = 
   const t = TRANSLATIONS[language];
 
   const tabs = [
-    { id: "dashboard", icon: LayoutDashboard, label: t.dashboard },
+    { id: "dashboard", icon: SquaresFour, label: t.dashboard },
     { id: "new-report", icon: PlusCircle, label: t.report },
-    { id: "map", icon: Map, label: t.map },
-    { id: "cases", icon: History, label: t.history },
+    { id: "map", icon: MapTrifold, label: t.map },
+    { id: "cases", icon: Clock, label: t.history },
     { id: "authorities", icon: Shield, label: t.grid },
     { id: "notifications", icon: Bell, label: t.alerts, badge: true },
   ];
@@ -38,7 +38,7 @@ export default function BottomNav({ currentTab, setTab, unreadCount, language = 
             }`}
             title={tab.label}
           >
-            <IconComponent className="w-5 h-5" />
+            <IconComponent className="w-5 h-5" weight={isActive ? "bold" : "duotone"} />
             {tab.badge && unreadCount > 0 && (
               <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-500 animate-pulse" />
             )}

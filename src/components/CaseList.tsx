@@ -1,5 +1,5 @@
 import { CivicReport, IssueCategory, ReportStatus, UrgencyLevel } from "../types";
-import { Scale, Users, Flame, ChevronRight, ShieldAlert, Droplet, Zap, Eye } from "lucide-react";
+import { Scales, Users, Flame, CaretRight, ShieldWarning, Drop, Lightning, Eye } from "@phosphor-icons/react";
 import { TRANSLATIONS } from "../translations";
 
 interface CaseListProps {
@@ -14,7 +14,7 @@ export default function CaseList({ reports, onSelectReport, language = "en" }: C
     {
       id: IssueCategory.WATER,
       title: language === "kn" ? "ನೀರು ಸರಬರಾಜು ಮತ್ತು ಒಳಚರಂಡಿ" : language === "hi" ? "जलापूर्ति और सीवेज" : "Water Supply & Sewage",
-      icon: Droplet,
+      icon: Drop,
       color: "blue",
       glowColor: "bg-blue-500/10",
       iconColor: "text-blue-400",
@@ -24,7 +24,7 @@ export default function CaseList({ reports, onSelectReport, language = "en" }: C
       id: "Roads & Infrastructure", // Matching key format or value
       title: language === "kn" ? "ರಸ್ತೆಗಳು ಮತ್ತು ಮೂಲಸೌಕರ್ಯ" : language === "hi" ? "सड़कें और बुनियादी ढांचा" : "Roads & Infrastructure",
       categoryEnum: IssueCategory.ROADS,
-      icon: Scale,
+      icon: Scales,
       color: "yellow",
       glowColor: "bg-yellow-500/10",
       iconColor: "text-yellow-400",
@@ -33,7 +33,7 @@ export default function CaseList({ reports, onSelectReport, language = "en" }: C
     {
       id: IssueCategory.ELECTRICITY,
       title: language === "kn" ? "ವಿದ್ಯುತ್ ಮತ್ತು ವಿದ್ಯುತ್ ಗ್ರಿಡ್" : language === "hi" ? "बिजली और पावर ग्रिड" : "Electricity & Power Grid",
-      icon: Zap,
+      icon: Lightning,
       color: "purple",
       glowColor: "bg-purple-500/10",
       iconColor: "text-purple-400",
@@ -42,7 +42,7 @@ export default function CaseList({ reports, onSelectReport, language = "en" }: C
     {
       id: IssueCategory.SAFETY,
       title: language === "kn" ? "ಸಾರ್ವಜನಿಕ ಸುರಕ್ಷತೆ ಮತ್ತು ಕಾನೂನು" : language === "hi" ? "सार्वजनिक सुरक्षा और कानून" : "Public Safety & Law",
-      icon: ShieldAlert,
+      icon: ShieldWarning,
       color: "red",
       glowColor: "bg-red-500/10",
       iconColor: "text-red-400",

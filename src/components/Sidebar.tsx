@@ -1,4 +1,4 @@
-import { LayoutDashboard, PlusCircle, Map, History, Bell, Shield, Radio } from "lucide-react";
+import { SquaresFour, PlusCircle, MapTrifold, Clock, Bell, Shield, Radio } from "@phosphor-icons/react";
 import { TRANSLATIONS } from "../translations";
 
 interface SidebarProps {
@@ -12,10 +12,10 @@ export default function Sidebar({ currentTab, setTab, unreadCount, language = "e
   const t = TRANSLATIONS[language];
 
   const navItems = [
-    { id: "dashboard", icon: LayoutDashboard, label: t.dashboard },
+    { id: "dashboard", icon: SquaresFour, label: t.dashboard },
     { id: "new-report", icon: PlusCircle, label: t.report },
-    { id: "map", icon: Map, label: t.map },
-    { id: "cases", icon: History, label: t.history },
+    { id: "map", icon: MapTrifold, label: t.map },
+    { id: "cases", icon: Clock, label: t.history },
     { id: "authorities", icon: Shield, label: t.grid },
     { id: "notifications", icon: Bell, label: t.alerts, count: unreadCount },
   ];
@@ -26,7 +26,7 @@ export default function Sidebar({ currentTab, setTab, unreadCount, language = "e
       <div className="flex items-center gap-3 mb-12">
         <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-white/5 border border-white/10 overflow-visible">
           <div className="glow-dot glow-purple absolute w-10 h-10 rounded-full opacity-60 blur-md" />
-          <Radio className="w-4 h-4 text-purple-400 animate-pulse relative z-10" />
+          <Radio className="w-4 h-4 text-purple-400 animate-pulse relative z-10" weight="duotone" />
         </div>
         <div className="flex flex-col">
           <span className="font-headline-lg font-mono text-xl tracking-tighter text-white font-bold leading-none">NagarikAI</span>
@@ -54,7 +54,7 @@ export default function Sidebar({ currentTab, setTab, unreadCount, language = "e
               {isActive && (
                 <div className="absolute left-0 top-1/4 bottom-1/4 w-[3px] bg-purple-500 rounded-r-full shadow-[0_0_10px_rgba(168,85,247,0.5)]" />
               )}
-              <IconComponent className={`w-5 h-5 transition-transform duration-300 ${isActive ? "text-purple-400 scale-110" : "text-gray-500 group-hover:scale-105"}`} />
+              <IconComponent className={`w-5 h-5 transition-transform duration-300 ${isActive ? "text-purple-400 scale-110" : "text-gray-500 group-hover:scale-105"}`} weight="duotone" />
               <span className="font-sans text-sm">{item.label}</span>
               
               {item.count !== undefined && item.count > 0 ? (

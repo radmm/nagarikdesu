@@ -1,5 +1,5 @@
 import { GOVERN_DEPARTMENTS } from "../data";
-import { Shield, CheckCircle, Clock, Zap, Droplet, AlertCircle, PhoneCall, Mail } from "lucide-react";
+import { Shield, Clock, Lightning, Drop, Phone, Envelope } from "@phosphor-icons/react";
 import { TRANSLATIONS } from "../translations";
 
 interface AuthoritiesProps {
@@ -10,9 +10,9 @@ export default function Authorities({ language = "en" }: AuthoritiesProps) {
   const t = TRANSLATIONS[language];
 
   const getDeptIcon = (iconName: string) => {
-    if (iconName === "water_drop") return Droplet;
-    if (iconName === "electric_bolt") return Zap;
-    if (iconName === "local_police") return PhoneCall;
+    if (iconName === "water_drop") return Drop;
+    if (iconName === "electric_bolt") return Lightning;
+    if (iconName === "local_police") return Phone;
     return Shield;
   };
 
@@ -88,7 +88,7 @@ export default function Authorities({ language = "en" }: AuthoritiesProps) {
                 <div className="flex items-center gap-4">
                   <div className={`w-12 h-12 rounded-full border flex items-center justify-center relative overflow-visible shrink-0 ${glowStyles}`}>
                     <div className={`glow-dot glow-${dept.glowColor} absolute w-14 h-14 rounded-full opacity-60 blur-md`} />
-                    <IconComponent className="w-5 h-5 text-white relative z-10" />
+                    <IconComponent className="w-5 h-5 text-white relative z-10" weight="duotone" />
                   </div>
                   <div>
                     <h3 className="font-headline-md font-mono text-base font-bold text-white">
@@ -106,7 +106,7 @@ export default function Authorities({ language = "en" }: AuthoritiesProps) {
 
                 {/* Email and Contact channel */}
                 <div className="flex items-center gap-2 text-xs font-mono text-gray-500 bg-[#000000]/20 px-3 py-2 rounded-xl border border-white/5">
-                  <Mail className="w-3.5 h-3.5" />
+                  <Envelope className="w-3.5 h-3.5" weight="duotone" />
                   <span className="truncate">{dept.contactEmail}</span>
                 </div>
               </div>
@@ -134,7 +134,7 @@ export default function Authorities({ language = "en" }: AuthoritiesProps) {
       {/* SLA Integrity Policy Note */}
       <div className="glass-card rounded-2xl p-6 border border-white/5 bg-[#000000]/30 space-y-2">
         <h4 className="font-headline-md font-mono text-xs font-bold text-white uppercase tracking-widest flex items-center gap-2">
-          <Clock className="w-4 h-4 text-purple-400" />
+          <Clock className="w-4 h-4 text-purple-400" weight="duotone" />
           {language === "kn" ? "ಸ್ವಾಯತ್ತ ಕುಂದುಕೊರತೆ ನಿಯಮಾವಳಿಗಳು" : language === "hi" ? "स्वायत्त शिकायत प्रोटोकॉल" : "Autonomous Grievance Protocols"}
         </h4>
         <p className="font-sans text-xs text-gray-400 leading-relaxed">

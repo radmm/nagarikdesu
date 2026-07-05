@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { CivicReport, ReportStatus, UrgencyLevel } from "../types";
 import { GOVERN_DEPARTMENTS } from "../data";
-import { ChevronLeft, Share2, Clipboard, Check, Scale, Clock, AlertTriangle, FileText, Send, User } from "lucide-react";
+import { CaretLeft, ShareNetwork, Clipboard, Check, Scales, Clock, Warning, FileText, PaperPlaneRight, User } from "@phosphor-icons/react";
 import { TRANSLATIONS } from "../translations";
 
 interface CaseDetailsProps {
@@ -95,7 +95,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport, language =
           onClick={onBack}
           className="flex items-center gap-2 text-xs font-sans text-gray-400 hover:text-white transition-colors"
         >
-          <ChevronLeft className="w-4 h-4" />
+          <CaretLeft className="w-4 h-4" weight="bold" />
           <span>{t.backToGrid}</span>
         </button>
         <span className="font-mono text-xs text-purple-400 font-bold uppercase tracking-widest">
@@ -165,7 +165,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport, language =
                   }`}
                 >
                   {isCompleted ? (
-                    <Check className="w-4 h-4 font-bold" />
+                    <Check className="w-4 h-4" weight="bold" />
                   ) : (
                     <span className="text-xs font-mono">{idx + 1}</span>
                   )}
@@ -184,7 +184,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport, language =
         <section className="glass-card rounded-2xl p-5 flex items-center gap-4">
           <div className={`w-12 h-12 rounded-full border flex items-center justify-center relative overflow-visible shrink-0 ${avatarGlow}`}>
             <div className={`glow-dot glow-${dept.glowColor} absolute w-14 h-14 rounded-full opacity-60 blur-md`} />
-            <Scale className="w-5 h-5 text-white relative z-10" />
+            <Scales className="w-5 h-5 text-white relative z-10" weight="duotone" />
           </div>
           <div className="flex-1 min-w-0">
             <span className="font-sans text-[10px] text-gray-500 uppercase tracking-widest block">{t.actionDepartment}</span>
@@ -241,12 +241,12 @@ export default function CaseDetails({ report, onBack, onUpdateReport, language =
             >
               {copied ? (
                 <>
-                  <Check className="w-3.5 h-3.5 text-green-400" />
+                  <Check className="w-3.5 h-3.5 text-green-400" weight="bold" />
                   <span className="text-green-400 font-bold">{t.copiedText}</span>
                 </>
               ) : (
                 <>
-                  <Clipboard className="w-3.5 h-3.5" />
+                  <Clipboard className="w-3.5 h-3.5" weight="duotone" />
                   <span>{t.copyDraft}</span>
                 </>
               )}
@@ -256,7 +256,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport, language =
           {/* Sits too long helper trigger */}
           {report.daysActive > 10 && !report.isFollowUpDrafted && tab === "initial" && (
             <span className="text-[10px] text-red-400 animate-pulse font-sans font-medium flex items-center gap-1">
-              <AlertTriangle className="w-3 h-3" /> Report unresolved over 10 days. Follow-up drafted.
+              <Warning className="w-3 h-3" weight="duotone" /> Report unresolved over 10 days. Follow-up drafted.
             </span>
           )}
         </div>
@@ -269,7 +269,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport, language =
           disabled={escalating}
           className="w-full glass-card py-4 flex items-center justify-center gap-2 hover:bg-white/5 text-white active:scale-95 transition-all text-sm font-sans font-bold border border-white/10 rounded-full"
         >
-          <Share2 className="w-4 h-4 text-purple-400" />
+          <ShareNetwork className="w-4 h-4 text-purple-400" weight="duotone" />
           <span>{escalating ? t.escalatingText : t.escalateBtn}</span>
         </button>
         
@@ -278,7 +278,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport, language =
             onClick={() => setTab("followup")}
             className="w-full py-4 bg-red-500/10 text-red-400 border border-red-500/20 rounded-full text-sm font-sans font-bold flex items-center justify-center gap-2 active:scale-95 transition-all hover:bg-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.1)]"
           >
-            <Send className="w-4 h-4 animate-bounce" />
+            <PaperPlaneRight className="w-4 h-4 animate-bounce" weight="duotone" />
             <span>Transmit Escalation Letter</span>
           </button>
         ) : (
@@ -288,7 +288,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport, language =
             }}
             className="w-full py-4 bg-white text-black hover:bg-gray-200 rounded-full text-sm font-sans font-bold flex items-center justify-center gap-2 active:scale-95 transition-all"
           >
-            <Send className="w-4 h-4" />
+            <PaperPlaneRight className="w-4 h-4" weight="duotone" />
             <span>{t.submitToGov}</span>
           </button>
         )}
@@ -301,7 +301,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport, language =
             <div className="absolute top-[-40px] left-1/2 -translate-x-1/2 w-40 h-40 bg-purple-500/10 rounded-full blur-2xl pointer-events-none" />
             <div className="w-12 h-12 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-400 flex items-center justify-center mx-auto relative overflow-visible">
               <div className="glow-dot glow-purple absolute w-14 h-14 rounded-full opacity-60 blur-md" />
-              <Scale className="w-5 h-5 relative z-10" />
+              <Scales className="w-5 h-5 relative z-10" weight="duotone" />
             </div>
             <h4 className="font-headline-md font-mono text-sm uppercase tracking-widest text-purple-400 font-bold">{t.systemBroadcast}</h4>
             <p className="font-sans text-xs text-gray-300 leading-relaxed">{toastMessage}</p>

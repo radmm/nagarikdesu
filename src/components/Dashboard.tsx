@@ -1,5 +1,5 @@
 import { CivicReport, IssueCategory, ReportStatus } from "../types";
-import { Plus, Users, ShieldCheck, Flame, ChevronRight, Scale, AlertTriangle } from "lucide-react";
+import { Plus, Users, ShieldCheck, Flame, CaretRight, Scales } from "@phosphor-icons/react";
 import { GOVERN_DEPARTMENTS } from "../data";
 import { TRANSLATIONS } from "../translations";
 
@@ -57,7 +57,7 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport, lang
           onClick={onReportIssue}
           className="flex items-center justify-center gap-2 px-6 py-3.5 bg-white text-black hover:bg-gray-200 active:scale-95 transition-all duration-300 font-sans font-bold rounded-full shadow-[0_0_20px_rgba(255,255,255,0.25)] text-sm shrink-0"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-4 h-4" weight="bold" />
           <span>{t.reportNewIssueBtn}</span>
         </button>
       </div>
@@ -70,7 +70,7 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport, lang
           <div className="flex justify-between items-end">
             <span className="font-headline-lg font-mono text-3xl font-bold text-white">{total}</span>
             <span className="p-1.5 rounded-full bg-white/5 text-gray-400">
-              <Users className="w-4 h-4" />
+              <Users className="w-4 h-4" weight="duotone" />
             </span>
           </div>
         </div>
@@ -81,7 +81,7 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport, lang
           <div className="flex justify-between items-end">
             <span className="font-headline-lg font-mono text-3xl font-bold text-green-400">{resolved}</span>
             <span className="p-1.5 rounded-full bg-green-500/10 text-green-400 shadow-[0_0_10px_rgba(34,197,94,0.2)]">
-              <ShieldCheck className="w-4 h-4" />
+              <ShieldCheck className="w-4 h-4" weight="duotone" />
             </span>
           </div>
         </div>
@@ -92,7 +92,7 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport, lang
           <div className="flex justify-between items-end">
             <span className="font-headline-lg font-mono text-3xl font-bold text-yellow-500">{pending}</span>
             <span className="p-1.5 rounded-full bg-yellow-500/10 text-yellow-400 shadow-[0_0_10px_rgba(234,179,8,0.2)]">
-              <Scale className="w-4 h-4" />
+              <Scales className="w-4 h-4" weight="duotone" />
             </span>
           </div>
         </div>
@@ -103,7 +103,7 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport, lang
           <div className="flex justify-between items-end">
             <span className="font-headline-lg font-mono text-3xl font-bold text-purple-400">{communityPressureCount}</span>
             <span className="p-1.5 rounded-full bg-purple-500/10 text-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.2)]">
-              <Flame className="w-4 h-4" />
+              <Flame className="w-4 h-4" weight="duotone" />
             </span>
           </div>
         </div>
@@ -131,7 +131,7 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport, lang
                 <div className="flex items-center gap-3">
                   <div className={`w-10 h-10 rounded-full border flex items-center justify-center relative overflow-visible ${glowColorsMap[getGlowColor(activeCase.category)]}`}>
                     <div className={`glow-dot glow-${getGlowColor(activeCase.category)} absolute w-12 h-12 rounded-full opacity-60 blur-md`} />
-                    <Scale className="w-4 h-4 text-white relative z-10" />
+                    <Scales className="w-4 h-4 text-white relative z-10" weight="duotone" />
                   </div>
                   <div>
                     <h4 className="font-headline-md font-mono text-base font-bold text-white group-hover:text-purple-400 transition-colors">
@@ -253,7 +253,7 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport, lang
                         <span className="text-[9px] font-mono tracking-widest text-gray-500 uppercase">
                           {rep.status === ReportStatus.RESOLVED ? t.resolved : rep.status === ReportStatus.SUBMITTED ? t.open : rep.status}
                         </span>
-                        <ChevronRight className="w-3.5 h-3.5 text-gray-500 group-hover:translate-x-0.5 transition-transform" />
+                        <CaretRight className="w-3.5 h-3.5 text-gray-500 group-hover:translate-x-0.5 transition-transform" weight="bold" />
                       </div>
                     </div>
                   </div>

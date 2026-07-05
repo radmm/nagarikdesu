@@ -10,7 +10,7 @@ import CaseList from "./components/CaseList";
 import Authorities from "./components/Authorities";
 import Heatmap from "./components/Heatmap";
 import NotificationsScreen from "./components/NotificationsScreen";
-import { Shield, Sparkles, Languages, Monitor, Smartphone, Scale, Radio } from "lucide-react";
+import { Radio } from "@phosphor-icons/react";
 import { TRANSLATIONS } from "./translations";
 
 export default function App() {
@@ -198,15 +198,36 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white flex flex-col relative overflow-x-hidden select-none">
-      {/* Soft background ambient purple-to-black glow */}
-      <div className="absolute top-[-250px] left-1/2 -translate-x-1/2 w-[1000px] h-[800px] bg-gradient-to-b from-purple-600/15 to-transparent rounded-full blur-[160px] pointer-events-none -z-10" />
+      {/* Soft background ambient gradient glows (cross-fading smoothly) */}
+      <div className="absolute top-[-250px] left-1/2 -translate-x-1/2 w-[1000px] h-[800px] pointer-events-none -z-10">
+        {/* Purple glow: Home / Overview (dashboard) */}
+        <div className={`absolute inset-0 bg-gradient-to-b from-purple-600/15 to-transparent rounded-full blur-[160px] transition-opacity duration-1000 ease-in-out ${tab === "dashboard" ? "opacity-100" : "opacity-0"}`} />
+        
+        {/* Yellow/Orange glow: Report New Issue (new-report) */}
+        <div className={`absolute inset-0 bg-gradient-to-b from-amber-500/15 to-transparent rounded-full blur-[160px] transition-opacity duration-1000 ease-in-out ${tab === "new-report" ? "opacity-100" : "opacity-0"}`} />
+        
+        {/* Purple-to-Pink glow: Case Detail (case-detail) */}
+        <div className={`absolute inset-0 bg-gradient-to-b from-pink-600/15 to-transparent rounded-full blur-[160px] transition-opacity duration-1000 ease-in-out ${tab === "case-detail" ? "opacity-100" : "opacity-0"}`} />
+        
+        {/* Green/Emerald glow: Filing History / Cases */}
+        <div className={`absolute inset-0 bg-gradient-to-b from-emerald-600/15 to-transparent rounded-full blur-[160px] transition-opacity duration-1000 ease-in-out ${tab === "cases" ? "opacity-100" : "opacity-0"}`} />
+        
+        {/* Blue glow: Authorities */}
+        <div className={`absolute inset-0 bg-gradient-to-b from-blue-600/15 to-transparent rounded-full blur-[160px] transition-opacity duration-1000 ease-in-out ${tab === "authorities" ? "opacity-100" : "opacity-0"}`} />
+        
+        {/* Blue-Green glow: Map / Heatmap (map) */}
+        <div className={`absolute inset-0 bg-gradient-to-b from-teal-500/15 to-transparent rounded-full blur-[160px] transition-opacity duration-1000 ease-in-out ${tab === "map" ? "opacity-100" : "opacity-0"}`} />
+        
+        {/* Soft Red/Orange glow: Notifications */}
+        <div className={`absolute inset-0 bg-gradient-to-b from-rose-500/15 to-transparent rounded-full blur-[160px] transition-opacity duration-1000 ease-in-out ${tab === "notifications" ? "opacity-100" : "opacity-0"}`} />
+      </div>
 
       {/* Top Universal Control Header (Allows language switching seamlessly) */}
       <header className="border-b border-white/5 bg-[#0A0A0A]/80 backdrop-blur-md px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 z-50 sticky top-0">
         <div className="flex items-center gap-3">
           <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 overflow-visible">
             <div className="glow-dot glow-purple absolute w-10 h-10 rounded-full opacity-60 blur-md" />
-            <Radio className="w-4.5 h-4.5 text-purple-400 animate-pulse relative z-10" />
+            <Radio className="w-4.5 h-4.5 text-purple-400 animate-pulse relative z-10" weight="duotone" />
           </div>
           <div>
             <h1 className="font-headline-lg font-mono text-lg font-extrabold tracking-tight text-white flex items-center gap-1.5 leading-none">
