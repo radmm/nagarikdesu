@@ -26,10 +26,10 @@ export default function Sidebar({ currentTab, setTab, unreadCount, language = "e
       <div className="flex items-center gap-3 mb-12">
         <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-white/5 border border-white/10 overflow-visible">
           <div className="glow-dot glow-purple absolute w-10 h-10 rounded-full opacity-60 blur-md" />
-          <Radio className="w-4 h-4 text-purple-400 animate-pulse relative z-10" weight="duotone" />
+          <Radio className="w-4 h-4 text-purple-400 relative z-10" weight="duotone" />
         </div>
         <div className="flex flex-col">
-          <span className="font-headline-lg font-mono text-xl tracking-tighter text-white font-bold leading-none">NagarikAI</span>
+          <span className="font-headline-lg font-mono text-xl tracking-tighter text-white font-bold leading-none">Nagarikdesu</span>
           <span className="text-[10px] uppercase font-mono tracking-[0.2em] text-purple-400/80">Civic Command</span>
         </div>
       </div>
@@ -58,7 +58,7 @@ export default function Sidebar({ currentTab, setTab, unreadCount, language = "e
               <span className="font-sans text-sm">{item.label}</span>
               
               {item.count !== undefined && item.count > 0 ? (
-                <span className="ml-auto px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 text-xs font-mono font-bold animate-pulse">
+                <span className="ml-auto px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 text-xs font-mono font-bold">
                   {item.count}
                 </span>
               ) : null}
@@ -72,7 +72,7 @@ export default function Sidebar({ currentTab, setTab, unreadCount, language = "e
         <div className="flex items-center justify-between">
           <span className="font-mono text-[10px] text-gray-500 uppercase tracking-widest">Network Node</span>
           <div className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
             <span className="font-mono text-[9px] text-green-400 font-bold">ONLINE</span>
           </div>
         </div>

@@ -32,7 +32,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport, language =
       return;
     }
 
-    const followUpText = `Subject: URGENT SECOND NOTICE: Unresolved Civic Infraction - Escalation (Ref: ${report.referenceId})\n\nTo the Department Commissioner,\n${dept?.name || "Target Department Control Office"},\nBengaluru.\n\nDear Sir/Madam,\n\nThis is an automated legal reminder and community escalation concerning Case Reference: ${report.referenceId}, originally filed on ${new Date(report.createdAt).toLocaleDateString()} regarding: "${report.title}".\n\nThis ticket has remained in '${report.status}' status for over ${report.daysActive} days with no active tarmac patching or engineering resolution logged.\n\nUnder Municipal Code Section 51 (Public Redress and Administrative Vigilance), state agencies hold a 10-day SLA to initiate physical repair site audits for high-tension grids or transit blocks.\n\nWe kindly request immediate escalation of this ticket to active dispatch or a formal explanation of municipal latency.\n\nSincerely,\nCivic Advocacy Bot (NagarikAI) on behalf of ${report.reporterName}`;
+    const followUpText = `Subject: URGENT SECOND NOTICE: Unresolved Civic Infraction - Escalation (Ref: ${report.referenceId})\n\nTo the Department Commissioner,\n${dept?.name || "Target Department Control Office"},\nBengaluru.\n\nDear Sir/Madam,\n\nThis is an automated legal reminder and community escalation concerning Case Reference: ${report.referenceId}, originally filed on ${new Date(report.createdAt).toLocaleDateString()} regarding: "${report.title}".\n\nThis ticket has remained in '${report.status}' status for over ${report.daysActive} days with no active tarmac patching or engineering resolution logged.\n\nUnder Municipal Code Section 51 (Public Redress and Administrative Vigilance), state agencies hold a 10-day SLA to initiate physical repair site audits for high-tension grids or transit blocks.\n\nWe kindly request immediate escalation of this ticket to active dispatch or a formal explanation of municipal latency.\n\nSincerely,\nCivic Advocacy Bot (Nagarikdesu) on behalf of ${report.reporterName}`;
 
     const updated: CivicReport = {
       ...report,
@@ -216,7 +216,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport, language =
           >
             {t.escalatedTag}
             {report.daysActive > 10 && !report.isFollowUpDrafted && (
-              <span className="absolute top-3.5 right-4 w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+              <span className="absolute top-3.5 right-4 w-2 h-2 rounded-full bg-red-500" />
             )}
           </button>
         </div>
@@ -255,7 +255,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport, language =
 
           {/* Sits too long helper trigger */}
           {report.daysActive > 10 && !report.isFollowUpDrafted && tab === "initial" && (
-            <span className="text-[10px] text-red-400 animate-pulse font-sans font-medium flex items-center gap-1">
+            <span className="text-[10px] text-red-400 font-sans font-medium flex items-center gap-1">
               <Warning className="w-3 h-3" weight="duotone" /> Report unresolved over 10 days. Follow-up drafted.
             </span>
           )}
@@ -278,7 +278,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport, language =
             onClick={() => setTab("followup")}
             className="w-full py-4 bg-red-500/10 text-red-400 border border-red-500/20 rounded-full text-sm font-sans font-bold flex items-center justify-center gap-2 active:scale-95 transition-all hover:bg-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.1)]"
           >
-            <PaperPlaneRight className="w-4 h-4 animate-bounce" weight="duotone" />
+            <PaperPlaneRight className="w-4 h-4" weight="duotone" />
             <span>Transmit Escalation Letter</span>
           </button>
         ) : (

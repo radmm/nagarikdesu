@@ -40,7 +40,7 @@ export default function BottomNav({ currentTab, setTab, unreadCount, language = 
           >
             <IconComponent className="w-5 h-5" weight={isActive ? "bold" : "duotone"} />
             {tab.badge && unreadCount > 0 && (
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-500" />
             )}
           </button>
         );

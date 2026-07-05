@@ -139,10 +139,10 @@ export default function Authorities({ language = "en" }: AuthoritiesProps) {
         </h4>
         <p className="font-sans text-xs text-gray-400 leading-relaxed">
           {language === "kn" 
-            ? "ಮ್ಯಾನುಯಲ್ ಅಧಿಕಾರಶಾಹಿಯನ್ನು ತಪ್ಪಿಸಲು NagarikAI ನೇರ API ಸಂಪರ್ಕ ಮಾರ್ಗಗಳನ್ನು ಅವಲಂಬಿಸಿದೆ. ನಿಗದಿತ ೧೦ ದಿನಗಳ SLA ಮಿತಿ ಮೀರಿದ ವರದಿಗಳು ಸಿಟಿ ಕೌನ್ಸಿಲ್ ಒಂಬುಡ್ಸ್‌ಮನ್‌ಗಳಿಗೆ ಸ್ವಯಂಚಾಲಿತ ಎಚ್ಚರಿಕೆಯನ್ನು ಕಳುಹಿಸುತ್ತವೆ."
+            ? "ಮ್ಯಾನುಯಲ್ ಅಧಿಕಾರಶಾಹಿಯನ್ನು ತಪ್ಪಿಸಲು Nagarikdesu ನೇರ API ಸಂಪರ್ಕ ಮಾರ್ಗಗಳನ್ನು ಅವಲಂಬಿಸಿದೆ. ನಿಗದಿತ ೧೦ ದಿನಗಳ SLA ಮಿತಿ ಮೀರಿದ ವರದಿಗಳು ಸಿಟಿ ಕೌನ್ಸಿಲ್ ಒಂಬುಡ್ಸ್‌ಮನ್‌ಗಳಿಗೆ ಸ್ವಯಂಚಾಲಿತ ಎಚ್ಚರಿಕೆಯನ್ನು ಕಳುಹಿಸುತ್ತವೆ."
             : language === "hi"
-            ? "मैन्युअल लालफीताशाही से बचने के लिए NagarikAI सीधे API एकीकरण चैनलों पर निर्भर करता है। मानक 10-दिवसीय SLA से अधिक होने वाली रिपोर्टें नगर परिषद लोकपालों को स्वचालित चेतावनी प्रेषित करती हैं।"
-            : "NagarikAI relies on Direct API integration channels to bypass manual bureaucracy. Reports exceeding standard 10-day SLAs (Service Level Agreements) trigger auto-generated escalation notifications to City Council ombudsmen."
+            ? "मैन्युअल लालफीताशाही से बचने के लिए Nagarikdesu सीधे API एकीकरण चैनलों पर निर्भर करता है। मानक 10-दिवसीय SLA से अधिक होने वाली रिपोर्टें नगर परिषद लोकपालों को स्वचालित चेतावनी प्रेषित करती हैं।"
+            : "Nagarikdesu relies on Direct API integration channels to bypass manual bureaucracy. Reports exceeding standard 10-day SLAs (Service Level Agreements) trigger auto-generated escalation notifications to City Council ombudsmen."
           }
         </p>
       </div>

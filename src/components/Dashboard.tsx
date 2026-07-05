@@ -161,7 +161,7 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport, lang
                 </div>
                 <div>
                   <span className="text-gray-400 font-sans block mb-0.5">{t.caseStatus}</span>
-                  <span className="text-green-400 font-sans font-bold animate-pulse flex items-center gap-1.5">
+                  <span className="text-green-400 font-sans font-bold flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
                     {activeCase.status === ReportStatus.RESOLVED ? t.resolved : activeCase.status === ReportStatus.SUBMITTED ? t.open : activeCase.status}
                   </span>
@@ -220,7 +220,7 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport, lang
         <div className="lg:col-span-4 space-y-4">
           <div className="flex justify-between items-center px-1">
             <h3 className="font-headline-md font-mono text-sm font-semibold text-white uppercase tracking-wider">{t.recentAlerts}</h3>
-            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-red-500" />
           </div>
 
           <div className="space-y-3 max-h-[460px] overflow-y-auto pr-1">

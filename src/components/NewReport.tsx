@@ -233,13 +233,13 @@ export default function NewReport({ onSubmitReport, language = "en" }: NewReport
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-purple-500/10 text-purple-400 flex items-center justify-center shadow-[0_0_10px_rgba(168,85,247,0.2)]">
-                <MapPin className="w-4 h-4 animate-bounce" />
+                <MapPin className="w-4 h-4" />
               </div>
               <div>
                 <span className="font-sans text-[10px] text-gray-400 uppercase tracking-widest block">{t.autoDetectedCoords}</span>
                 {isLocating ? (
-                  <span className="text-xs font-sans text-purple-400 animate-pulse flex items-center gap-1.5 mt-0.5">
-                    <RefreshCw className="w-3.5 h-3.5 animate-spin" /> {t.gpsPinpointing}
+                  <span className="text-xs font-sans text-purple-400 flex items-center gap-1.5 mt-0.5">
+                    <RefreshCw className="w-3.5 h-3.5" /> {t.gpsPinpointing}
                   </span>
                 ) : (
                   <span className="text-xs font-sans text-white font-bold block mt-0.5">
@@ -296,7 +296,7 @@ export default function NewReport({ onSubmitReport, language = "en" }: NewReport
                 onClick={toggleRecording}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-sans text-xs font-bold transition-all ${
                   isRecording 
-                    ? "bg-red-500/20 text-red-400 border border-red-500/30 animate-pulse" 
+                    ? "bg-red-500/20 text-red-400 border border-red-500/30" 
                     : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10"
                 }`}
               >
@@ -317,10 +317,10 @@ export default function NewReport({ onSubmitReport, language = "en" }: NewReport
 
           {isRecording ? (
             <div className="h-28 flex flex-col items-center justify-center text-center space-y-3 bg-[#050505] rounded-xl border border-dashed border-red-500/20 p-4">
-              <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center animate-ping text-red-400">
+              <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center text-red-400">
                 <Mic className="w-5 h-5" />
               </div>
-              <p className="font-sans text-xs text-red-400 font-bold tracking-wider animate-pulse uppercase">
+              <p className="font-sans text-xs text-red-400 font-bold tracking-wider uppercase">
                 {t.systemListening}
               </p>
             </div>
@@ -376,7 +376,7 @@ export default function NewReport({ onSubmitReport, language = "en" }: NewReport
             </div>
             
             <div className="flex items-center gap-1.5 text-purple-400 font-mono text-xs font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5 animate-spin" /> {t.liveParsing}
+              <Sparkles className="w-3.5 h-3.5" /> {t.liveParsing}
             </div>
             
             <div className="grid grid-cols-2 gap-4 text-xs">
@@ -404,7 +404,7 @@ export default function NewReport({ onSubmitReport, language = "en" }: NewReport
         >
           {submitting ? (
             <>
-              <RefreshCw className="w-5 h-5 animate-spin" />
+              <RefreshCw className="w-5 h-5" />
               <span>{t.aiAnalyzing}</span>
             </>
           ) : (

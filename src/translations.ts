@@ -108,7 +108,7 @@ export const TRANSLATIONS = {
 
     // Authorities Screen
     authTitle: "Department Grid & Responsibilities",
-    authSubtitle: "Targeted departments currently monitored by NagarikAI. Direct API links established.",
+    authSubtitle: "Targeted departments currently monitored by Nagarikdesu. Direct API links established.",
     directContact: "Direct Authority Contact",
     responseEfficiency: "Response Efficiency",
     casesSolved: "Cases Solved",

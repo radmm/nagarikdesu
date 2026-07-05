@@ -68,7 +68,7 @@ export default function NotificationsScreen({ alerts, onMarkRead, onMarkAllRead,
               >
                 {/* Glowing alert dot for unread */}
                 {!alert.read && (
-                  <span className="absolute top-4 right-4 w-2 h-2 rounded-full bg-purple-500 animate-pulse shadow-[0_0_8px_rgba(168,85,247,0.8)]" />
+                  <span className="absolute top-4 right-4 w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.8)]" />
                 )}
 
                 <div className="flex items-start gap-4">

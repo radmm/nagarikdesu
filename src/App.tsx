@@ -227,11 +227,11 @@ export default function App() {
         <div className="flex items-center gap-3">
           <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 overflow-visible">
             <div className="glow-dot glow-purple absolute w-10 h-10 rounded-full opacity-60 blur-md" />
-            <Radio className="w-4.5 h-4.5 text-purple-400 animate-pulse relative z-10" weight="duotone" />
+            <Radio className="w-4.5 h-4.5 text-purple-400 relative z-10" weight="duotone" />
           </div>
           <div>
             <h1 className="font-headline-lg font-mono text-lg font-extrabold tracking-tight text-white flex items-center gap-1.5 leading-none">
-              NagarikAI
+              Nagarikdesu
             </h1>
             <p className="text-[10px] text-gray-500 font-sans tracking-tight mt-0.5">{t.motto}</p>
           </div>
