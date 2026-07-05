@@ -2,14 +2,17 @@ import { useState } from "react";
 import { CivicReport, ReportStatus, UrgencyLevel } from "../types";
 import { GOVERN_DEPARTMENTS } from "../data";
 import { ChevronLeft, Share2, Clipboard, Check, Scale, Clock, AlertTriangle, FileText, Send, User } from "lucide-react";
+import { TRANSLATIONS } from "../translations";
 
 interface CaseDetailsProps {
   report: CivicReport;
   onBack: () => void;
   onUpdateReport: (updatedReport: CivicReport) => void;
+  language?: "en" | "kn" | "hi";
 }
 
-export default function CaseDetails({ report, onBack, onUpdateReport }: CaseDetailsProps) {
+export default function CaseDetails({ report, onBack, onUpdateReport, language = "en" }: CaseDetailsProps) {
+  const t = TRANSLATIONS[language];
   const [copied, setCopied] = useState(false);
   const [tab, setTab] = useState<"initial" | "followup">("initial");
   const [escalating, setEscalating] = useState(false);
@@ -63,10 +66,10 @@ export default function CaseDetails({ report, onBack, onUpdateReport }: CaseDeta
 
   // Stepper helper
   const steps = [
-    { label: "Submitted", status: ReportStatus.SUBMITTED },
-    { label: "Acknowledged", status: ReportStatus.ACKNOWLEDGED },
-    { label: "Under Review", status: ReportStatus.UNDER_REVIEW },
-    { label: "Resolved", status: ReportStatus.RESOLVED },
+    { label: language === "kn" ? "ಸಲ್ಲಿಸಲಾಗಿದೆ" : language === "hi" ? "सबमिट किया गया" : "Submitted", status: ReportStatus.SUBMITTED },
+    { label: language === "kn" ? "ಸ್ವೀಕರಿಸಲಾಗಿದೆ" : language === "hi" ? "स्वीकार किया गया" : "Acknowledged", status: ReportStatus.ACKNOWLEDGED },
+    { label: language === "kn" ? "ಪರಿಶೀಲನೆಯಲ್ಲಿದೆ" : language === "hi" ? "समीक्षा के अधीन" : "Under Review", status: ReportStatus.UNDER_REVIEW },
+    { label: language === "kn" ? "ಪರಿಹರಿಸಲಾಗಿದೆ" : language === "hi" ? "सुलझाया गया" : "Resolved", status: ReportStatus.RESOLVED },
   ];
 
   const currentStepIdx = steps.findIndex((s) => s.status === report.status);
@@ -93,7 +96,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport }: CaseDeta
           className="flex items-center gap-2 text-xs font-sans text-gray-400 hover:text-white transition-colors"
         >
           <ChevronLeft className="w-4 h-4" />
-          <span>Filing History</span>
+          <span>{t.backToGrid}</span>
         </button>
         <span className="font-mono text-xs text-purple-400 font-bold uppercase tracking-widest">
           {report.referenceId}
@@ -107,17 +110,17 @@ export default function CaseDetails({ report, onBack, onUpdateReport }: CaseDeta
           {communityPercentage}%
         </span>
         <span className="font-headline-md font-mono text-sm tracking-widest text-gray-400 uppercase mt-2">
-          Community Pressure
+          {t.communityPressure}
         </span>
         <span className="font-sans text-[11px] text-gray-500 mt-1 block">
-          {report.communityScore} signatures collected (Goal: 1500 for legal escalation)
+          {report.communityScore} {t.signatures} (Goal: 1500 for legal escalation)
         </span>
       </section>
 
       {/* Case Details Cards Bento Grid */}
       <div className="grid grid-cols-2 gap-4">
         <div className="glass-card rounded-2xl p-5 flex flex-col justify-between h-28 relative overflow-hidden">
-          <span className="font-sans text-[10px] text-gray-400 uppercase tracking-widest">Severity Index</span>
+          <span className="font-sans text-[10px] text-gray-400 uppercase tracking-widest">{t.urgencyText}</span>
           <div className="flex items-center gap-2 mt-2">
             <span className={`px-3 py-1 text-xs font-sans font-bold border rounded-full ${getUrgencyColor(report.urgency)}`}>
               {report.urgency.toUpperCase()}
@@ -136,7 +139,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport }: CaseDeta
 
       {/* Status Pipeline Step Stepper */}
       <section className="glass-card rounded-2xl p-6 space-y-4">
-        <h3 className="font-headline-md font-mono text-sm font-bold text-white uppercase tracking-wider">Case Status Pipeline</h3>
+        <h3 className="font-headline-md font-mono text-sm font-bold text-white uppercase tracking-wider">{t.caseStatus} Pipeline</h3>
         <div className="relative flex justify-between items-center pt-2">
           {/* Connector Line */}
           <div className="absolute top-5 left-4 right-4 h-0.5 bg-white/10 -z-0"></div>
@@ -184,7 +187,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport }: CaseDeta
             <Scale className="w-5 h-5 text-white relative z-10" />
           </div>
           <div className="flex-1 min-w-0">
-            <span className="font-sans text-[10px] text-gray-500 uppercase tracking-widest block">Action Department</span>
+            <span className="font-sans text-[10px] text-gray-500 uppercase tracking-widest block">{t.actionDepartment}</span>
             <h4 className="font-headline-md font-mono text-sm font-bold text-white truncate uppercase mt-0.5">
               {dept.name} ({dept.abbreviation})
             </h4>
@@ -203,7 +206,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport }: CaseDeta
               tab === "initial" ? "bg-white/5 text-purple-400 font-bold" : "text-gray-500 hover:text-white"
             }`}
           >
-            Formal Legal Notice
+            {t.officialComplaintDraft}
           </button>
           <button
             onClick={triggerFollowUpDraft}
@@ -211,7 +214,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport }: CaseDeta
               tab === "followup" ? "bg-white/5 text-purple-400 font-bold" : "text-gray-500 hover:text-white"
             }`}
           >
-            Escalation Follow-up
+            {t.escalatedTag}
             {report.daysActive > 10 && !report.isFollowUpDrafted && (
               <span className="absolute top-3.5 right-4 w-2 h-2 rounded-full bg-red-500 animate-pulse" />
             )}
@@ -239,12 +242,12 @@ export default function CaseDetails({ report, onBack, onUpdateReport }: CaseDeta
               {copied ? (
                 <>
                   <Check className="w-3.5 h-3.5 text-green-400" />
-                  <span className="text-green-400 font-bold">Copied!</span>
+                  <span className="text-green-400 font-bold">{t.copiedText}</span>
                 </>
               ) : (
                 <>
                   <Clipboard className="w-3.5 h-3.5" />
-                  <span>Copy Letter</span>
+                  <span>{t.copyDraft}</span>
                 </>
               )}
             </button>
@@ -267,7 +270,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport }: CaseDeta
           className="w-full glass-card py-4 flex items-center justify-center gap-2 hover:bg-white/5 text-white active:scale-95 transition-all text-sm font-sans font-bold border border-white/10 rounded-full"
         >
           <Share2 className="w-4 h-4 text-purple-400" />
-          <span>Escalate signatures</span>
+          <span>{escalating ? t.escalatingText : t.escalateBtn}</span>
         </button>
         
         {report.daysActive > 10 ? (
@@ -276,7 +279,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport }: CaseDeta
             className="w-full py-4 bg-red-500/10 text-red-400 border border-red-500/20 rounded-full text-sm font-sans font-bold flex items-center justify-center gap-2 active:scale-95 transition-all hover:bg-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.1)]"
           >
             <Send className="w-4 h-4 animate-bounce" />
-            <span>Transmit Escalate letter</span>
+            <span>Transmit Escalation Letter</span>
           </button>
         ) : (
           <button
@@ -286,7 +289,7 @@ export default function CaseDetails({ report, onBack, onUpdateReport }: CaseDeta
             className="w-full py-4 bg-white text-black hover:bg-gray-200 rounded-full text-sm font-sans font-bold flex items-center justify-center gap-2 active:scale-95 transition-all"
           >
             <Send className="w-4 h-4" />
-            <span>Submit Letter</span>
+            <span>{t.submitToGov}</span>
           </button>
         )}
       </div>
@@ -300,13 +303,13 @@ export default function CaseDetails({ report, onBack, onUpdateReport }: CaseDeta
               <div className="glow-dot glow-purple absolute w-14 h-14 rounded-full opacity-60 blur-md" />
               <Scale className="w-5 h-5 relative z-10" />
             </div>
-            <h4 className="font-headline-md font-mono text-sm uppercase tracking-widest text-purple-400 font-bold">System Broadcast</h4>
+            <h4 className="font-headline-md font-mono text-sm uppercase tracking-widest text-purple-400 font-bold">{t.systemBroadcast}</h4>
             <p className="font-sans text-xs text-gray-300 leading-relaxed">{toastMessage}</p>
             <button
               onClick={() => setToastMessage(null)}
               className="w-full py-2.5 bg-white text-black hover:bg-gray-200 rounded-full font-mono text-xs uppercase tracking-wider font-bold transition-all active:scale-95"
             >
-              Acknowledge
+              {t.acknowledgeBtn}
             </button>
           </div>
         </div>

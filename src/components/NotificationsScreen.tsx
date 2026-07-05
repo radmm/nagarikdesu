@@ -1,13 +1,16 @@
 import { NotificationAlert } from "../types";
 import { Check, Bell, Flame, ShieldAlert, Award, Inbox } from "lucide-react";
+import { TRANSLATIONS } from "../translations";
 
 interface NotificationsScreenProps {
   alerts: NotificationAlert[];
   onMarkRead: (id: string) => void;
   onMarkAllRead: () => void;
+  language?: "en" | "kn" | "hi";
 }
 
-export default function NotificationsScreen({ alerts, onMarkRead, onMarkAllRead }: NotificationsScreenProps) {
+export default function NotificationsScreen({ alerts, onMarkRead, onMarkAllRead, language = "en" }: NotificationsScreenProps) {
+  const t = TRANSLATIONS[language];
   
   const getAlertIcon = (type: string) => {
     if (type === "success") return Check;
@@ -31,11 +34,11 @@ export default function NotificationsScreen({ alerts, onMarkRead, onMarkAllRead 
       {/* Header */}
       <div className="flex justify-between items-center pb-4 border-b border-white/5">
         <div>
-          <h2 className="font-headline-lg font-mono text-2xl font-bold text-white tracking-tight leading-none">
-            Notifications Center
+          <h2 className="font-headline-lg font-mono text-2xl font-bold text-white tracking-tight leading-none uppercase">
+            {t.alertsTitle}
           </h2>
           <p className="font-sans text-sm text-gray-400 mt-2">
-            Stay updated with real-time statutory follow-ups, community thresholds, and agency resolution confirmations.
+            {t.alertsSubtitleTitle}
           </p>
         </div>
         {hasUnread && (
@@ -43,7 +46,7 @@ export default function NotificationsScreen({ alerts, onMarkRead, onMarkAllRead 
             onClick={onMarkAllRead}
             className="px-4 py-2 hover:bg-white/5 border border-white/10 rounded-full transition-all text-xs font-sans text-white font-bold whitespace-nowrap active:scale-95"
           >
-            Mark all read
+            {t.markAllRead}
           </button>
         )}
       </div>
@@ -94,7 +97,7 @@ export default function NotificationsScreen({ alerts, onMarkRead, onMarkAllRead 
       ) : (
         <div className="h-60 flex flex-col items-center justify-center text-center space-y-3 bg-[#000000]/15 rounded-2xl border border-dashed border-white/5">
           <Inbox className="w-8 h-8 text-gray-600" />
-          <p className="font-sans text-sm text-gray-400">All inbox cleared. No unread alerts detected.</p>
+          <p className="font-sans text-sm text-gray-400">{t.noActiveAlerts}</p>
         </div>
       )}
     </div>

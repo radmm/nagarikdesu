@@ -1,19 +1,23 @@
 import { LayoutDashboard, PlusCircle, Map, History, Bell, Shield, Radio } from "lucide-react";
+import { TRANSLATIONS } from "../translations";
 
 interface SidebarProps {
   currentTab: string;
   setTab: (tab: string) => void;
   unreadCount: number;
+  language?: "en" | "kn" | "hi";
 }
 
-export default function Sidebar({ currentTab, setTab, unreadCount }: SidebarProps) {
+export default function Sidebar({ currentTab, setTab, unreadCount, language = "en" }: SidebarProps) {
+  const t = TRANSLATIONS[language];
+
   const navItems = [
-    { id: "dashboard", icon: LayoutDashboard, label: "Live Dashboard" },
-    { id: "new-report", icon: PlusCircle, label: "Report Issue" },
-    { id: "map", icon: Map, label: "Community Heatmap" },
-    { id: "cases", icon: History, label: "Filing History" },
-    { id: "authorities", icon: Shield, label: "Government Grid" },
-    { id: "notifications", icon: Bell, label: "Communications", count: unreadCount },
+    { id: "dashboard", icon: LayoutDashboard, label: t.dashboard },
+    { id: "new-report", icon: PlusCircle, label: t.report },
+    { id: "map", icon: Map, label: t.map },
+    { id: "cases", icon: History, label: t.history },
+    { id: "authorities", icon: Shield, label: t.grid },
+    { id: "notifications", icon: Bell, label: t.alerts, count: unreadCount },
   ];
 
   return (

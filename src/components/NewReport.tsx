@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CivicReport, IssueCategory, UrgencyLevel, Coordinates } from "../types";
 import { Mic, MicOff, MapPin, Sparkles, Send, FileImage, X, AlertCircle, RefreshCw } from "lucide-react";
+import { TRANSLATIONS } from "../translations";
 
 interface NewReportProps {
   onSubmitReport: (reportData: {
@@ -8,9 +9,11 @@ interface NewReportProps {
     location: Coordinates;
     mediaUrl?: string;
   }) => Promise<CivicReport | null>;
+  language?: "en" | "kn" | "hi";
 }
 
-export default function NewReport({ onSubmitReport }: NewReportProps) {
+export default function NewReport({ onSubmitReport, language = "en" }: NewReportProps) {
+  const t = TRANSLATIONS[language];
   const [description, setDescription] = useState("");
   const [isRecording, setIsRecording] = useState(false);
   const [recordingSeconds, setRecordingSeconds] = useState(0);
@@ -20,6 +23,17 @@ export default function NewReport({ onSubmitReport }: NewReportProps) {
   const [location, setLocation] = useState<Coordinates | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [voiceTextSimulated, setVoiceTextSimulated] = useState(false);
+
+  // Manual input fields for region/street address and ward/zone overrides
+  const [manualRegion, setManualRegion] = useState("");
+  const [manualZone, setManualZone] = useState("");
+
+  useEffect(() => {
+    if (location) {
+      setManualRegion(location.display_name);
+      setManualZone(location.zone);
+    }
+  }, [location]);
 
   // Live preview matches
   const [liveCategory, setLiveCategory] = useState<IssueCategory>(IssueCategory.OTHER);
@@ -180,11 +194,11 @@ export default function NewReport({ onSubmitReport }: NewReportProps) {
     if (!description.trim()) return;
 
     setSubmitting(true);
-    const activeLocation = location || {
-      latitude: 12.9716,
-      longitude: 77.5946,
-      display_name: "Koramangala, Bengaluru",
-      zone: "Zone 04-A"
+    const activeLocation: Coordinates = {
+      latitude: location?.latitude || 12.9716,
+      longitude: location?.longitude || 77.5946,
+      display_name: manualRegion.trim() || location?.display_name || "Indiranagar, Bengaluru",
+      zone: manualZone.trim() || location?.zone || "Zone 03-A"
     };
 
     const newReport = await onSubmitReport({
@@ -205,48 +219,77 @@ export default function NewReport({ onSubmitReport }: NewReportProps) {
     <div className="space-y-6 animate-fade-in max-w-2xl mx-auto">
       {/* Title */}
       <div>
-        <h2 className="font-headline-lg font-mono text-2xl font-bold text-white tracking-tight leading-none">
-          Submit Civic Complaint
+        <h2 className="font-headline-lg font-mono text-2xl font-bold text-white tracking-tight leading-none uppercase">
+          {t.submitCivicComplaint}
         </h2>
         <p className="font-sans text-sm text-gray-400 mt-2">
-          Describe a public issue. Our AI legal system automatically formats it, maps it, and targets the correct office.
+          {t.newReportSubtitle}
         </p>
       </div>
 
       <form onSubmit={handleFormSubmit} className="space-y-6">
-        {/* Geolocation Tag Card */}
-        <div className="glass-card rounded-2xl p-4 flex items-center justify-between border border-white/5 bg-[#000000]/20">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-purple-500/10 text-purple-400 flex items-center justify-center shadow-[0_0_10px_rgba(168,85,247,0.2)]">
-              <MapPin className="w-4 h-4 animate-bounce" />
+        {/* Geolocation Tag Card with Manual Overrides */}
+        <div className="glass-card rounded-2xl p-6 border border-white/5 bg-[#000000]/20 space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-purple-500/10 text-purple-400 flex items-center justify-center shadow-[0_0_10px_rgba(168,85,247,0.2)]">
+                <MapPin className="w-4 h-4 animate-bounce" />
+              </div>
+              <div>
+                <span className="font-sans text-[10px] text-gray-400 uppercase tracking-widest block">{t.autoDetectedCoords}</span>
+                {isLocating ? (
+                  <span className="text-xs font-sans text-purple-400 animate-pulse flex items-center gap-1.5 mt-0.5">
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" /> {t.gpsPinpointing}
+                  </span>
+                ) : (
+                  <span className="text-xs font-sans text-white font-bold block mt-0.5">
+                    {location?.display_name || t.pinpointPending} ({location?.zone || "Detecting Sector..."})
+                  </span>
+                )}
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={detectLocation}
+              className="p-2 hover:bg-white/5 active:scale-90 transition-all rounded-full text-gray-400 hover:text-white"
+              title="Refresh GPS location"
+            >
+              <RefreshCw className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="border-t border-white/5 pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-[10px] text-gray-400 uppercase tracking-widest mb-1.5 font-sans">
+                {t.manualRegionLabel}
+              </label>
+              <input
+                type="text"
+                value={manualRegion}
+                onChange={(e) => setManualRegion(e.target.value)}
+                placeholder={t.manualRegionPlaceholder}
+                className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-purple-500/50 font-sans text-xs transition-all"
+              />
             </div>
             <div>
-              <span className="font-sans text-[10px] text-gray-400 uppercase tracking-widest block">Auto-Detected Coordinates</span>
-              {isLocating ? (
-                <span className="text-xs font-sans text-purple-400 animate-pulse flex items-center gap-1.5 mt-0.5">
-                  <RefreshCw className="w-3.5 h-3.5 animate-spin" /> GPS Pinpointing...
-                </span>
-              ) : (
-                <span className="text-xs font-sans text-white font-bold block mt-0.5">
-                  {location?.display_name || "Pinpoint Pending..."} ({location?.zone || "Detecting Sector..."})
-                </span>
-              )}
+              <label className="block text-[10px] text-gray-400 uppercase tracking-widest mb-1.5 font-sans">
+                {t.manualZoneLabel}
+              </label>
+              <input
+                type="text"
+                value={manualZone}
+                onChange={(e) => setManualZone(e.target.value)}
+                placeholder={t.manualZonePlaceholder}
+                className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-purple-500/50 font-sans text-xs transition-all"
+              />
             </div>
           </div>
-          <button
-            type="button"
-            onClick={detectLocation}
-            className="p-2 hover:bg-white/5 active:scale-90 transition-all rounded-full text-gray-400 hover:text-white"
-            title="Refresh GPS location"
-          >
-            <RefreshCw className="w-4 h-4" />
-          </button>
         </div>
 
         {/* Text/Voice Input Card */}
         <div className="glass-card rounded-2xl p-6 space-y-4">
           <div className="flex justify-between items-center border-b border-white/5 pb-3">
-            <span className="font-sans text-[11px] text-gray-400 uppercase tracking-widest">Citizen Statement</span>
+            <span className="font-sans text-[11px] text-gray-400 uppercase tracking-widest">{t.citizenStatement}</span>
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -260,12 +303,12 @@ export default function NewReport({ onSubmitReport }: NewReportProps) {
                 {isRecording ? (
                   <>
                     <MicOff className="w-3.5 h-3.5" />
-                    <span>Stop ({recordingSeconds}s)</span>
+                    <span>{t.stopBtn} ({recordingSeconds}s)</span>
                   </>
                 ) : (
                   <>
                     <Mic className="w-3.5 h-3.5" />
-                    <span>Voice Input</span>
+                    <span>{t.voiceInput}</span>
                   </>
                 )}
               </button>
@@ -278,7 +321,7 @@ export default function NewReport({ onSubmitReport }: NewReportProps) {
                 <Mic className="w-5 h-5" />
               </div>
               <p className="font-sans text-xs text-red-400 font-bold tracking-wider animate-pulse uppercase">
-                System Listening... speak your issue clearly
+                {t.systemListening}
               </p>
             </div>
           ) : (
@@ -288,7 +331,7 @@ export default function NewReport({ onSubmitReport }: NewReportProps) {
                 setDescription(e.target.value);
                 setVoiceTextSimulated(false);
               }}
-              placeholder="In your own words, describe the incident (e.g., Water leakage near terminal, voltage spikes, garbage dumped on sidewalk)..."
+              placeholder={t.textPlaceholder}
               className="w-full h-32 bg-transparent border-0 focus:ring-0 text-white placeholder-gray-600 font-sans text-sm resize-none"
               required
             />
@@ -296,14 +339,14 @@ export default function NewReport({ onSubmitReport }: NewReportProps) {
 
           {voiceTextSimulated && (
             <p className="text-[11px] text-green-400 font-sans flex items-center gap-1.5 italic bg-green-950/20 px-3 py-2 rounded-lg border border-green-500/20">
-              <Sparkles className="w-3.5 h-3.5" /> Captured from simulated voice transcription.
+              <Sparkles className="w-3.5 h-3.5" /> {t.capturedVoice}
             </p>
           )}
         </div>
 
         {/* Media Upload and Preview Card */}
         <div className="glass-card rounded-2xl p-5">
-          <span className="font-sans text-[11px] text-gray-400 uppercase tracking-widest block mb-3">Attach Visual Proof</span>
+          <span className="font-sans text-[11px] text-gray-400 uppercase tracking-widest block mb-3">{t.attachProof}</span>
           
           {mediaPreview ? (
             <div className="relative rounded-xl overflow-hidden border border-white/10 h-40">
@@ -319,7 +362,7 @@ export default function NewReport({ onSubmitReport }: NewReportProps) {
           ) : (
             <label className="flex flex-col items-center justify-center h-24 rounded-xl border border-dashed border-white/10 hover:border-purple-500/40 cursor-pointer bg-white/5 transition-all text-gray-400 hover:text-white">
               <FileImage className="w-6 h-6 mb-2 text-gray-500" />
-              <span className="text-xs font-sans">Upload/Capture incident photo (Optional)</span>
+              <span className="text-xs font-sans">{t.uploadPlaceholder}</span>
               <input type="file" accept="image/*" onChange={handleMediaChange} className="hidden" />
             </label>
           )}
@@ -333,21 +376,21 @@ export default function NewReport({ onSubmitReport }: NewReportProps) {
             </div>
             
             <div className="flex items-center gap-1.5 text-purple-400 font-mono text-xs font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5 animate-spin" /> Live Parsing Preview
+              <Sparkles className="w-3.5 h-3.5 animate-spin" /> {t.liveParsing}
             </div>
             
             <div className="grid grid-cols-2 gap-4 text-xs">
               <div>
-                <span className="text-gray-400 block mb-0.5">Detected Classification</span>
+                <span className="text-gray-400 block mb-0.5">{t.detectedClassification}</span>
                 <span className="text-white font-sans font-bold">{liveCategory}</span>
               </div>
               <div>
-                <span className="text-gray-400 block mb-0.5">Urgency Matrix</span>
+                <span className="text-gray-400 block mb-0.5">{t.urgencyMatrix}</span>
                 <span className="text-white font-sans font-bold">{liveUrgency}</span>
               </div>
               <div>
-                <span className="text-gray-400 block mb-0.5">Responsible Authority</span>
-                <span className="text-white font-sans font-bold uppercase">{liveDept.toUpperCase()} Control Room</span>
+                <span className="text-gray-400 block mb-0.5">{t.responsibleAuthority}</span>
+                <span className="text-white font-sans font-bold uppercase">{liveDept.toUpperCase()} {t.controlRoom}</span>
               </div>
             </div>
           </div>
@@ -362,11 +405,11 @@ export default function NewReport({ onSubmitReport }: NewReportProps) {
           {submitting ? (
             <>
               <RefreshCw className="w-5 h-5 animate-spin" />
-              <span>AI Analyzing & Drafting...</span>
+              <span>{t.aiAnalyzing}</span>
             </>
           ) : (
             <>
-              <span>Submit Report</span>
+              <span>{t.submitReportBtn}</span>
               <Send className="w-4 h-4" />
             </>
           )}

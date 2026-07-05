@@ -1,14 +1,18 @@
 import { CivicReport, IssueCategory, ReportStatus } from "../types";
 import { Plus, Users, ShieldCheck, Flame, ChevronRight, Scale, AlertTriangle } from "lucide-react";
 import { GOVERN_DEPARTMENTS } from "../data";
+import { TRANSLATIONS } from "../translations";
 
 interface DashboardProps {
   reports: CivicReport[];
   onReportIssue: () => void;
   onSelectReport: (report: CivicReport) => void;
+  language?: "en" | "kn" | "hi";
 }
 
-export default function Dashboard({ reports, onReportIssue, onSelectReport }: DashboardProps) {
+export default function Dashboard({ reports, onReportIssue, onSelectReport, language = "en" }: DashboardProps) {
+  const t = TRANSLATIONS[language];
+
   // Compute some stats
   const total = reports.length;
   const resolved = reports.filter((r) => r.status === ReportStatus.RESOLVED).length;
@@ -26,7 +30,7 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport }: Da
     red: "shadow-[0_0_20px_rgba(239,68,68,0.4)] border-red-500/40 bg-red-950/20",
     blue: "shadow-[0_0_20px_rgba(59,130,246,0.4)] border-blue-500/40 bg-blue-950/20",
     purple: "shadow-[0_0_20px_rgba(168,85,247,0.4)] border-purple-500/40 bg-purple-950/20",
-    yellow: "shadow-[0_0_20_rgba(234,179,8,0.4)] border-yellow-500/40 bg-yellow-950/20"
+    yellow: "shadow-[0_0_20px_rgba(234,179,8,0.4)] border-yellow-500/40 bg-yellow-950/20"
   };
 
   const getGlowColor = (cat: IssueCategory): keyof typeof glowColorsMap => {
@@ -42,11 +46,11 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport }: Da
       {/* Hero Welcome Unit */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 pb-2 border-b border-white/5">
         <div>
-          <h2 className="font-headline-lg font-mono text-2xl md:text-3xl font-bold text-white tracking-tight leading-none">
-            Welcome to NagarikAI
+          <h2 className="font-headline-lg font-mono text-2xl md:text-3xl font-bold text-white tracking-tight leading-none uppercase">
+            {t.welcome}
           </h2>
           <p className="font-sans text-sm text-gray-400 mt-2">
-            Your voice, written in the language of the law. Secure civic coordination dashboard.
+            {t.mottoBody}. {t.tagline}.
           </p>
         </div>
         <button
@@ -54,7 +58,7 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport }: Da
           className="flex items-center justify-center gap-2 px-6 py-3.5 bg-white text-black hover:bg-gray-200 active:scale-95 transition-all duration-300 font-sans font-bold rounded-full shadow-[0_0_20px_rgba(255,255,255,0.25)] text-sm shrink-0"
         >
           <Plus className="w-4 h-4" />
-          <span>Report an Issue</span>
+          <span>{t.reportNewIssueBtn}</span>
         </button>
       </div>
 
@@ -62,7 +66,7 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport }: Da
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Metric 1 */}
         <div className="glass-card rounded-2xl p-5 flex flex-col justify-between h-28 relative overflow-hidden">
-          <span className="font-sans text-[11px] font-medium text-gray-400 uppercase tracking-widest">Total Reports</span>
+          <span className="font-sans text-[11px] font-medium text-gray-400 uppercase tracking-widest">{t.totalReports}</span>
           <div className="flex justify-between items-end">
             <span className="font-headline-lg font-mono text-3xl font-bold text-white">{total}</span>
             <span className="p-1.5 rounded-full bg-white/5 text-gray-400">
@@ -73,7 +77,7 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport }: Da
 
         {/* Metric 2 */}
         <div className="glass-card rounded-2xl p-5 flex flex-col justify-between h-28 relative overflow-hidden">
-          <span className="font-sans text-[11px] font-medium text-gray-400 uppercase tracking-widest">Resolved Cases</span>
+          <span className="font-sans text-[11px] font-medium text-gray-400 uppercase tracking-widest">{t.resolvedCases}</span>
           <div className="flex justify-between items-end">
             <span className="font-headline-lg font-mono text-3xl font-bold text-green-400">{resolved}</span>
             <span className="p-1.5 rounded-full bg-green-500/10 text-green-400 shadow-[0_0_10px_rgba(34,197,94,0.2)]">
@@ -84,7 +88,7 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport }: Da
 
         {/* Metric 3 */}
         <div className="glass-card rounded-2xl p-5 flex flex-col justify-between h-28 relative overflow-hidden">
-          <span className="font-sans text-[11px] font-medium text-gray-400 uppercase tracking-widest">Pending Dispatches</span>
+          <span className="font-sans text-[11px] font-medium text-gray-400 uppercase tracking-widest">{t.pendingDispatches}</span>
           <div className="flex justify-between items-end">
             <span className="font-headline-lg font-mono text-3xl font-bold text-yellow-500">{pending}</span>
             <span className="p-1.5 rounded-full bg-yellow-500/10 text-yellow-400 shadow-[0_0_10px_rgba(234,179,8,0.2)]">
@@ -95,7 +99,7 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport }: Da
 
         {/* Metric 4 */}
         <div className="glass-card rounded-2xl p-5 flex flex-col justify-between h-28 relative overflow-hidden">
-          <span className="font-sans text-[11px] font-medium text-gray-400 uppercase tracking-widest">Community Pressure</span>
+          <span className="font-sans text-[11px] font-medium text-gray-400 uppercase tracking-widest">{t.communityPressure}</span>
           <div className="flex justify-between items-end">
             <span className="font-headline-lg font-mono text-3xl font-bold text-purple-400">{communityPressureCount}</span>
             <span className="p-1.5 rounded-full bg-purple-500/10 text-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.2)]">
@@ -110,12 +114,12 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport }: Da
         {/* Recent Report Glowing Avatars group + Overlapping Featured active case (9 columns on desktop) */}
         <div className="lg:col-span-8 space-y-6">
           <div className="flex justify-between items-center px-1">
-            <h3 className="font-headline-md font-mono text-lg font-semibold text-white">Active Case Oversight</h3>
+            <h3 className="font-headline-md font-mono text-lg font-semibold text-white uppercase tracking-wider">{t.mostActiveCase}</h3>
             <span className="font-sans text-xs text-gray-400 uppercase tracking-widest">Priority Index</span>
           </div>
 
           {/* Active Case Card (Overlapping Style) */}
-          {activeCase && (
+          {activeCase ? (
             <div 
               onClick={() => onSelectReport(activeCase)}
               className="glass-card rounded-2xl p-6 hover:border-purple-500/40 cursor-pointer group transition-all duration-300 relative overflow-hidden"
@@ -139,7 +143,7 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport }: Da
                   </div>
                 </div>
                 <span className="font-sans text-[10px] font-bold px-3 py-1 rounded-full bg-purple-500/20 text-purple-400 border border-purple-500/30 uppercase tracking-widest">
-                  {activeCase.urgency}
+                  {language === "kn" ? t.urgentAction : language === "hi" ? "अति आवश्यक" : activeCase.urgency}
                 </span>
               </div>
 
@@ -150,31 +154,35 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport }: Da
               {/* Stat rows & Anchor values inside case card */}
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 pt-4 border-t border-white/5 text-xs">
                 <div>
-                  <span className="text-gray-400 font-sans block mb-0.5">Assigned To</span>
-                  <span className="text-white font-sans font-bold">
+                  <span className="text-gray-400 font-sans block mb-0.5">{t.assignedTo}</span>
+                  <span className="text-white font-sans font-bold uppercase">
                     {GOVERN_DEPARTMENTS.find((d) => d.id === activeCase.department)?.abbreviation || "Admin Oversight"}
                   </span>
                 </div>
                 <div>
-                  <span className="text-gray-400 font-sans block mb-0.5">Status</span>
+                  <span className="text-gray-400 font-sans block mb-0.5">{t.caseStatus}</span>
                   <span className="text-green-400 font-sans font-bold animate-pulse flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
-                    {activeCase.status}
+                    {activeCase.status === ReportStatus.RESOLVED ? t.resolved : activeCase.status === ReportStatus.SUBMITTED ? t.open : activeCase.status}
                   </span>
                 </div>
                 <div className="col-span-2 md:col-span-1">
-                  <span className="text-gray-400 font-sans block mb-0.5">Signatures Required</span>
+                  <span className="text-gray-400 font-sans block mb-0.5">{t.signatures}</span>
                   <span className="text-white font-mono font-bold">
                     {activeCase.communityScore} / 1500
                   </span>
                 </div>
               </div>
             </div>
+          ) : (
+            <div className="glass-card rounded-2xl p-6 text-center text-gray-500 font-sans text-sm">
+              {t.noActiveCases}
+            </div>
           )}
 
           {/* Citizen Avatar Rows */}
           <div className="glass-card rounded-2xl p-6 space-y-4">
-            <h4 className="font-headline-md font-mono text-sm font-bold text-white">Verified Local Advocates</h4>
+            <h4 className="font-headline-md font-mono text-sm font-bold text-white uppercase tracking-wider">Verified Local Advocates</h4>
             <div className="flex flex-wrap items-center gap-4">
               {reports.slice(0, 5).map((rep, idx) => {
                 const colors = ["bg-red-500", "bg-purple-500", "bg-blue-500", "bg-yellow-500", "bg-green-500"];
@@ -211,45 +219,51 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport }: Da
         {/* Live Feed Sidebar list (4 columns on desktop) */}
         <div className="lg:col-span-4 space-y-4">
           <div className="flex justify-between items-center px-1">
-            <h3 className="font-headline-md font-mono text-sm font-semibold text-white">Live Intake Feed</h3>
+            <h3 className="font-headline-md font-mono text-sm font-semibold text-white uppercase tracking-wider">{t.recentAlerts}</h3>
             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
           </div>
 
           <div className="space-y-3 max-h-[460px] overflow-y-auto pr-1">
-            {reports.slice().reverse().map((rep) => {
-              const glowCol = getGlowColor(rep.category);
-              const colorDot = {
-                green: "bg-green-400",
-                red: "bg-red-400",
-                blue: "bg-blue-400",
-                purple: "bg-purple-400",
-                yellow: "bg-yellow-400"
-              }[glowCol];
+            {reports.length > 0 ? (
+              reports.slice().reverse().map((rep) => {
+                const glowCol = getGlowColor(rep.category);
+                const colorDot = {
+                  green: "bg-green-400",
+                  red: "bg-red-400",
+                  blue: "bg-blue-400",
+                  purple: "bg-purple-400",
+                  yellow: "bg-yellow-400"
+                }[glowCol];
 
-              return (
-                <div
-                  key={rep.id}
-                  onClick={() => onSelectReport(rep)}
-                  className="glass-card rounded-xl p-4 hover:border-white/20 cursor-pointer transition-all duration-300 group flex items-start gap-3"
-                >
-                  <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${colorDot}`} />
-                  <div className="flex-1 min-w-0">
-                    <h5 className="font-sans text-xs font-bold text-white group-hover:text-purple-400 transition-colors truncate">
-                      {rep.title}
-                    </h5>
-                    <p className="font-sans text-[11px] text-gray-400 truncate mt-0.5">
-                      {rep.location.display_name}
-                    </p>
-                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/5">
-                      <span className="text-[9px] font-mono tracking-widest text-gray-500 uppercase">
-                        {rep.status}
-                      </span>
-                      <ChevronRight className="w-3.5 h-3.5 text-gray-500 group-hover:translate-x-0.5 transition-transform" />
+                return (
+                  <div
+                    key={rep.id}
+                    onClick={() => onSelectReport(rep)}
+                    className="glass-card rounded-xl p-4 hover:border-white/20 cursor-pointer transition-all duration-300 group flex items-start gap-3"
+                  >
+                    <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${colorDot}`} />
+                    <div className="flex-1 min-w-0">
+                      <h5 className="font-sans text-xs font-bold text-white group-hover:text-purple-400 transition-colors truncate">
+                        {rep.title}
+                      </h5>
+                      <p className="font-sans text-[11px] text-gray-400 truncate mt-0.5">
+                        {rep.location.display_name}
+                      </p>
+                      <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/5">
+                        <span className="text-[9px] font-mono tracking-widest text-gray-500 uppercase">
+                          {rep.status === ReportStatus.RESOLVED ? t.resolved : rep.status === ReportStatus.SUBMITTED ? t.open : rep.status}
+                        </span>
+                        <ChevronRight className="w-3.5 h-3.5 text-gray-500 group-hover:translate-x-0.5 transition-transform" />
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+            ) : (
+              <div className="text-center py-8 text-gray-500 text-xs font-sans">
+                {t.noActiveAlerts}
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -11,52 +11,7 @@ import Authorities from "./components/Authorities";
 import Heatmap from "./components/Heatmap";
 import NotificationsScreen from "./components/NotificationsScreen";
 import { Shield, Sparkles, Languages, Monitor, Smartphone, Scale, Radio } from "lucide-react";
-
-// Multi-language translation map
-const TRANSLATIONS = {
-  en: {
-    dashboard: "Live Dashboard",
-    report: "Report Issue",
-    history: "Filing History",
-    grid: "Government Grid",
-    alerts: "Communications",
-    motto: "Your voice, written in the language of the law.",
-    tagline: "Secure Civic AI Portal",
-    newReportBtn: "Report an Issue",
-    langLabel: "Language",
-    viewLabel: "Workspace Layout",
-    desktopMode: "Fluid Widescreen",
-    mobileMode: "Mobile Device Frame",
-  },
-  kn: {
-    dashboard: "ಲೈವ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
-    report: "ದೂರು ಸಲ್ಲಿಸಿ",
-    history: "ದಾಖಲಾತಿ ಇತಿಹಾಸ",
-    grid: "ಸರ್ಕಾರಿ ಗ್ರಿಡ್",
-    alerts: "ಸಂಪರ್ಕಗಳು",
-    motto: "ನಿಮ್ಮ ಧ್ವನಿ, ಕಾನೂನಿನ ಭಾಷೆಯಲ್ಲಿ ಲಿಖಿತವಾಗಿದೆ.",
-    tagline: "ಸುರಕ್ಷಿತ ನಾಗರಿಕ ಎಐ ಪೋರ್ಟಲ್",
-    newReportBtn: "ದೂರು ವರದಿ ಮಾಡಿ",
-    langLabel: "ಭಾಷೆ",
-    viewLabel: "ಲೇಔಟ್ ಬದಲಿಸಿ",
-    desktopMode: "ಡೆಸ್ಕ್‌ಟಾಪ್ ವೀಕ್ಷಣೆ",
-    mobileMode: "ಮೊಬೈಲ್ ಚೌಕಟ್ಟು",
-  },
-  hi: {
-    dashboard: "लाइव डैशबोर्ड",
-    report: "शिकायत दर्ज करें",
-    history: "शिकायत इतिहास",
-    grid: "सरकारी ग्रिड",
-    alerts: "सूचनाएं",
-    motto: "आपकी आवाज़, कानून की भाषा में लिखित।",
-    tagline: "सुरक्षित नागरिक एआई पोर्टल",
-    newReportBtn: "समस्या की रिपोर्ट करें",
-    langLabel: "भाषा",
-    viewLabel: "लेआउट बदलें",
-    desktopMode: "डेस्कटॉप दृश्य",
-    mobileMode: "मोबाइल फ़्रेम",
-  }
-};
+import { TRANSLATIONS } from "./translations";
 
 export default function App() {
   // Persistence state
@@ -73,7 +28,6 @@ export default function App() {
   const [tab, setTab] = useState<string>("dashboard");
   const [selectedReport, setSelectedReport] = useState<CivicReport | null>(null);
   const [language, setLanguage] = useState<"en" | "kn" | "hi">("en");
-  const [layoutMode, setLayoutMode] = useState<"desktop" | "mobile">("desktop");
 
   // Sync state to localStorage
   useEffect(() => {
@@ -199,32 +153,35 @@ export default function App() {
             reports={reports}
             onReportIssue={() => setTab("new-report")}
             onSelectReport={handleSelectReport}
+            language={language}
           />
         );
       case "new-report":
-        return <NewReport onSubmitReport={handleNewReportSubmit} />;
+        return <NewReport onSubmitReport={handleNewReportSubmit} language={language} />;
       case "case-detail":
         return selectedReport ? (
           <CaseDetails
             report={selectedReport}
             onBack={() => setTab("dashboard")}
             onUpdateReport={handleUpdateReport}
+            language={language}
           />
         ) : (
           <div className="text-center py-12 text-gray-400">Select a case to inspect details.</div>
         );
       case "cases":
-        return <CaseList reports={reports} onSelectReport={handleSelectReport} />;
+        return <CaseList reports={reports} onSelectReport={handleSelectReport} language={language} />;
       case "authorities":
-        return <Authorities />;
+        return <Authorities language={language} />;
       case "map":
-        return <Heatmap reports={reports} onSelectReport={handleSelectReport} />;
+        return <Heatmap reports={reports} onSelectReport={handleSelectReport} language={language} />;
       case "notifications":
         return (
           <NotificationsScreen
             alerts={alerts}
             onMarkRead={handleMarkAlertRead}
             onMarkAllRead={handleMarkAllAlertsRead}
+            language={language}
           />
         );
       default:
@@ -233,6 +190,7 @@ export default function App() {
             reports={reports}
             onReportIssue={() => setTab("new-report")}
             onSelectReport={handleSelectReport}
+            language={language}
           />
         );
     }
@@ -243,7 +201,7 @@ export default function App() {
       {/* Soft background ambient purple-to-black glow */}
       <div className="absolute top-[-250px] left-1/2 -translate-x-1/2 w-[1000px] h-[800px] bg-gradient-to-b from-purple-600/15 to-transparent rounded-full blur-[160px] pointer-events-none -z-10" />
 
-      {/* Top Universal Control Header (Allows layout mode and language switching seamlessly) */}
+      {/* Top Universal Control Header (Allows language switching seamlessly) */}
       <header className="border-b border-white/5 bg-[#0A0A0A]/80 backdrop-blur-md px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 z-50 sticky top-0">
         <div className="flex items-center gap-3">
           <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 overflow-visible">
@@ -252,7 +210,7 @@ export default function App() {
           </div>
           <div>
             <h1 className="font-headline-lg font-mono text-lg font-extrabold tracking-tight text-white flex items-center gap-1.5 leading-none">
-              NagarikAI <span className="text-[10px] text-purple-400 font-mono bg-purple-950/40 px-2 py-0.5 rounded-full border border-purple-500/20">CIVIC LAW AI</span>
+              NagarikAI
             </h1>
             <p className="text-[10px] text-gray-500 font-sans tracking-tight mt-0.5">{t.motto}</p>
           </div>
@@ -260,30 +218,6 @@ export default function App() {
 
         {/* Workspace controls */}
         <div className="flex flex-wrap items-center gap-4">
-          {/* Layout switcher */}
-          <div className="flex items-center bg-white/5 border border-white/10 rounded-full p-0.5 text-xs font-sans">
-            <button
-              onClick={() => setLayoutMode("desktop")}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full transition-all ${
-                layoutMode === "desktop" ? "bg-white text-black font-bold" : "text-gray-400 hover:text-white"
-              }`}
-              title="Fluid widescreen"
-            >
-              <Monitor className="w-3.5 h-3.5" />
-              <span className="hidden xs:inline">{t.desktopMode}</span>
-            </button>
-            <button
-              onClick={() => setLayoutMode("mobile")}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full transition-all ${
-                layoutMode === "mobile" ? "bg-white text-black font-bold" : "text-gray-400 hover:text-white"
-              }`}
-              title="Mobile device frame"
-            >
-              <Smartphone className="w-3.5 h-3.5" />
-              <span className="hidden xs:inline">{t.mobileMode}</span>
-            </button>
-          </div>
-
           {/* Language selector */}
           <div className="flex items-center bg-white/5 border border-white/10 rounded-full p-0.5 text-xs font-mono">
             <button
@@ -315,41 +249,18 @@ export default function App() {
       </header>
 
       {/* Primary Workspace container */}
-      {layoutMode === "mobile" ? (
-        /* Mobile Device Frame Mockup Wrapper */
-        <div className="flex-1 flex items-center justify-center py-10 px-4 bg-[#0A0A0A]">
-          <div className="relative w-full max-w-[410px] aspect-[9/19.5] bg-[#0E0E0E] rounded-[48px] border-[12px] border-[#1A1A1D] shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col">
-            {/* Phone Speaker & Camera Notch */}
-            <div className="absolute top-0 inset-x-0 h-7 bg-black z-50 flex items-center justify-center">
-              <div className="w-20 h-4 bg-black rounded-b-xl flex justify-center items-center">
-                <div className="w-12 h-1 bg-[#1A1A1A] rounded-full" />
-              </div>
-            </div>
+      <div className="flex-1 flex">
+        {/* Sidebar Left */}
+        <Sidebar currentTab={tab} setTab={setTab} unreadCount={unreadAlertsCount} language={language} />
 
-            {/* In-Frame scrollable content area */}
-            <div className="flex-1 overflow-y-auto pt-10 pb-24 px-5 scrollbar-thin">
-              {renderTabContent()}
-            </div>
+        {/* Desktop main scroll context */}
+        <main className="flex-1 overflow-y-auto px-6 md:px-12 py-10 max-w-5xl mx-auto pb-28 md:pb-12">
+          {renderTabContent()}
+        </main>
 
-            {/* Mobile Bottom Navigation Inside Frame */}
-            <BottomNav currentTab={tab} setTab={setTab} unreadCount={unreadAlertsCount} />
-          </div>
-        </div>
-      ) : (
-        /* Full Widescreen Widespan Desktop Workspace */
-        <div className="flex-1 flex">
-          {/* Sidebar Left */}
-          <Sidebar currentTab={tab} setTab={setTab} unreadCount={unreadAlertsCount} />
-
-          {/* Desktop main scroll context */}
-          <main className="flex-1 overflow-y-auto px-6 md:px-12 py-10 max-w-5xl mx-auto pb-28 md:pb-12">
-            {renderTabContent()}
-          </main>
-
-          {/* Floating bottom nav for mobile fallback when layout is desktop but browser is tiny */}
-          <BottomNav currentTab={tab} setTab={setTab} unreadCount={unreadAlertsCount} />
-        </div>
-      )}
+        {/* Floating bottom nav for mobile fallback when layout is desktop but browser is tiny */}
+        <BottomNav currentTab={tab} setTab={setTab} unreadCount={unreadAlertsCount} language={language} />
+      </div>
     </div>
   );
 }

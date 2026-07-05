@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { CivicReport, IssueCategory } from "../types";
 import { MapPin, Sparkles, Scale, AlertCircle, Eye, ShieldAlert } from "lucide-react";
+import { TRANSLATIONS } from "../translations";
 
 interface HeatmapProps {
   reports: CivicReport[];
   onSelectReport: (report: CivicReport) => void;
+  language?: "en" | "kn" | "hi";
 }
 
-export default function Heatmap({ reports, onSelectReport }: HeatmapProps) {
+export default function Heatmap({ reports, onSelectReport, language = "en" }: HeatmapProps) {
+  const t = TRANSLATIONS[language];
   const [selectedPin, setSelectedPin] = useState<CivicReport | null>(null);
 
   // Group into sectors or list active coordinates
@@ -39,22 +42,15 @@ export default function Heatmap({ reports, onSelectReport }: HeatmapProps) {
     return "text-yellow-400 fill-yellow-400";
   };
 
-  const getPulseColorClass = (cat: IssueCategory) => {
-    if (cat === IssueCategory.ELECTRICITY) return "bg-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.6)]";
-    if (cat === IssueCategory.WATER) return "bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.6)]";
-    if (cat === IssueCategory.SAFETY) return "bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.6)]";
-    return "bg-yellow-500 shadow-[0_0_15px_rgba(234,179,8,0.6)]";
-  };
-
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Header */}
       <div>
-        <h2 className="font-headline-lg font-mono text-2xl font-bold text-white tracking-tight leading-none">
-          Live Community Heatmap
+        <h2 className="font-headline-lg font-mono text-2xl font-bold text-white tracking-tight leading-none uppercase">
+          {t.mapTitle}
         </h2>
         <p className="font-sans text-sm text-gray-400 mt-2">
-          Grid oversight visualization of urban tension, infrastructure leaks, and power disruptions.
+          {t.mapSubtitle}
         </p>
       </div>
 
@@ -143,14 +139,14 @@ export default function Heatmap({ reports, onSelectReport }: HeatmapProps) {
               <div className="flex justify-between items-center pt-3 border-t border-white/5">
                 <div className="flex items-center gap-1.5 text-xs text-purple-400 font-sans font-bold">
                   <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-                  {selectedPin.communityScore} Advocates Engaged
+                  {selectedPin.communityScore} {language === "kn" ? "ಬೆಂಬಲಿಗರು" : language === "hi" ? "समर्थक जुड़े" : "Advocates Engaged"}
                 </div>
                 <button
                   onClick={() => onSelectReport(selectedPin)}
                   className="flex items-center gap-1 px-4 py-1.5 bg-white text-black font-sans font-bold text-[11px] rounded-full hover:bg-gray-200 transition-colors"
                 >
                   <Eye className="w-3.5 h-3.5" />
-                  <span>Inspect Case</span>
+                  <span>{t.viewDetails}</span>
                 </button>
               </div>
             </div>
@@ -162,19 +158,19 @@ export default function Heatmap({ reports, onSelectReport }: HeatmapProps) {
       <div className="flex flex-wrap gap-4 justify-center items-center text-xs font-mono text-gray-400 bg-white/5 px-6 py-3.5 rounded-xl border border-white/5">
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(59,130,246,0.6)]" />
-          <span>Water Supply</span>
+          <span>{language === "kn" ? "ನೀರು ಸರಬರಾಜು" : language === "hi" ? "जलापूर्ति" : "Water Supply"}</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-yellow-400 shadow-[0_0_8px_rgba(234,179,8,0.6)]" />
-          <span>Infrastructure</span>
+          <span>{language === "kn" ? "ಮೂಲಸೌಕರ್ಯ" : language === "hi" ? "बुनियादी ढांचा" : "Infrastructure"}</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-purple-400 shadow-[0_0_8px_rgba(168,85,247,0.6)]" />
-          <span>Electricity</span>
+          <span>{language === "kn" ? "ವಿದ್ಯುತ್" : language === "hi" ? "बिजली" : "Electricity"}</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-red-400 shadow-[0_0_8px_rgba(239,68,68,0.6)]" />
-          <span>Public Safety</span>
+          <span>{language === "kn" ? "ಸಾರ್ವಜನಿಕ ಸುರಕ್ಷತೆ" : language === "hi" ? "सार्वजनिक सुरक्षा" : "Public Safety"}</span>
         </div>
       </div>
     </div>

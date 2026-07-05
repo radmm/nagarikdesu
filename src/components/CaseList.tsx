@@ -1,49 +1,52 @@
 import { CivicReport, IssueCategory, ReportStatus, UrgencyLevel } from "../types";
 import { Scale, Users, Flame, ChevronRight, ShieldAlert, Droplet, Zap, Eye } from "lucide-react";
+import { TRANSLATIONS } from "../translations";
 
 interface CaseListProps {
   reports: CivicReport[];
   onSelectReport: (report: CivicReport) => void;
+  language?: "en" | "kn" | "hi";
 }
 
-export default function CaseList({ reports, onSelectReport }: CaseListProps) {
+export default function CaseList({ reports, onSelectReport, language = "en" }: CaseListProps) {
+  const t = TRANSLATIONS[language];
   const categories = [
     {
       id: IssueCategory.WATER,
-      title: "Water Supply & Sewage",
+      title: language === "kn" ? "ನೀರು ಸರಬರಾಜು ಮತ್ತು ಒಳಚರಂಡಿ" : language === "hi" ? "जलापूर्ति और सीवेज" : "Water Supply & Sewage",
       icon: Droplet,
       color: "blue",
       glowColor: "bg-blue-500/10",
       iconColor: "text-blue-400",
-      description: "Managing leaks, bursts, supply contamination, and stormwater drainage."
+      description: language === "kn" ? "ಸೋರಿಕೆಗಳು, ಕೊಳವೆ ಒಡೆತ, ಕಲುಷಿತ ನೀರು ಮತ್ತು ಚರಂಡಿ ಸಮಸ್ಯೆಗಳ ನಿರ್ವಹಣೆ." : language === "hi" ? "लीक, पाइप फटना, दूषित जलापूर्ति और जल निकासी प्रबंधन।" : "Managing leaks, bursts, supply contamination, and stormwater drainage."
     },
     {
       id: "Roads & Infrastructure", // Matching key format or value
-      title: "Roads & Infrastructure",
+      title: language === "kn" ? "ರಸ್ತೆಗಳು ಮತ್ತು ಮೂಲಸೌಕರ್ಯ" : language === "hi" ? "सड़कें और बुनियादी ढांचा" : "Roads & Infrastructure",
       categoryEnum: IssueCategory.ROADS,
       icon: Scale,
       color: "yellow",
       glowColor: "bg-yellow-500/10",
       iconColor: "text-yellow-400",
-      description: "Handling potholes, sidewalk disruptions, traffic lights, and structural safety."
+      description: language === "kn" ? "ಗುಂಡಿಗಳು, ಪಾದಚಾರಿ ಮಾರ್ಗಗಳು, ಟ್ರಾಫಿಕ್ ದೀಪಗಳು ಮತ್ತು ಸುರಕ್ಷತೆಯ ವರದಿ." : language === "hi" ? "गड्ढों, फुटपाथों, ट्रैफिक लाइटों और संरचनात्मक सुरक्षा की रिपोर्ट।" : "Handling potholes, sidewalk disruptions, traffic lights, and structural safety."
     },
     {
       id: IssueCategory.ELECTRICITY,
-      title: "Electricity & Power Grid",
+      title: language === "kn" ? "ವಿದ್ಯುತ್ ಮತ್ತು ವಿದ್ಯುತ್ ಗ್ರಿಡ್" : language === "hi" ? "बिजली और पावर ग्रिड" : "Electricity & Power Grid",
       icon: Zap,
       color: "purple",
       glowColor: "bg-purple-500/10",
       iconColor: "text-purple-400",
-      description: "Monitoring blackouts, high-voltage sparks, transformer decay, and streetlights."
+      description: language === "kn" ? "ವಿದ್ಯುತ್ ಕಡಿತ, ಅಧಿಕ ವೋಲ್ಟೇಜ್ ಕಿಡಿಗಳು, ಟ್ರಾನ್ಸ್‌ಫಾರ್ಮರ್ ಸಮಸ್ಯೆ ಮತ್ತು ಬೀದಿ ದೀಪಗಳು." : language === "hi" ? "बिजली कटौती, हाई-वोल्टेज स्पार्क्स, ट्रांसफार्मर खराबी और स्ट्रीटलाइट्स।" : "Monitoring blackouts, high-voltage sparks, transformer decay, and streetlights."
     },
     {
       id: IssueCategory.SAFETY,
-      title: "Public Safety & Law",
+      title: language === "kn" ? "ಸಾರ್ವಜನಿಕ ಸುರಕ್ಷತೆ ಮತ್ತು ಕಾನೂನು" : language === "hi" ? "सार्वजनिक सुरक्षा और कानून" : "Public Safety & Law",
       icon: ShieldAlert,
       color: "red",
       glowColor: "bg-red-500/10",
       iconColor: "text-red-400",
-      description: "Reporting public health hazards, trash dumping, illegal noise, and emergency nodes."
+      description: language === "kn" ? "ಸಾರ್ವಜನಿಕ ಆರೋಗ್ಯಕ್ಕೆ ಹಾನಿ, ಕಸ ಸುರಿಯುವುದು, ಅಕ್ರಮ ಗದ್ದಲ ಮತ್ತು ತುರ್ತು ಸಮಸ್ಯೆಗಳು." : language === "hi" ? "सार्वजनिक स्वास्थ्य के खतरे, कचरा फेंकना, अवैध शोर और आपातकालीन मुद्दे।" : "Reporting public health hazards, trash dumping, illegal noise, and emergency nodes."
     }
   ];
 
@@ -51,11 +54,11 @@ export default function CaseList({ reports, onSelectReport }: CaseListProps) {
     <div className="space-y-8 animate-fade-in">
       {/* Header */}
       <div>
-        <h2 className="font-headline-lg font-mono text-2xl font-bold text-white tracking-tight leading-none">
-          Category Directory
+        <h2 className="font-headline-lg font-mono text-2xl font-bold text-white tracking-tight leading-none uppercase">
+          {t.historyTitle}
         </h2>
         <p className="font-sans text-sm text-gray-400 mt-2">
-          Browse filed community reports sorted by specialized municipal categories.
+          {t.historySubtitle}
         </p>
       </div>
 
@@ -92,15 +95,15 @@ export default function CaseList({ reports, onSelectReport }: CaseListProps) {
                 {/* Stat rows inside category row */}
                 <div className="flex gap-6 text-xs border-t md:border-t-0 md:border-l border-white/5 pt-3 md:pt-0 md:pl-6 shrink-0">
                   <div>
-                    <span className="text-gray-500 font-sans block uppercase text-[9px] tracking-widest">Total Reports</span>
+                    <span className="text-gray-500 font-sans block uppercase text-[9px] tracking-widest">{t.totalReports}</span>
                     <span className="text-white font-mono font-bold text-base mt-0.5 block">{totalCatReports}</span>
                   </div>
                   <div>
-                    <span className="text-gray-500 font-sans block uppercase text-[9px] tracking-widest">Resolved</span>
+                    <span className="text-gray-500 font-sans block uppercase text-[9px] tracking-widest">{t.resolvedCases}</span>
                     <span className="text-green-400 font-mono font-bold text-base mt-0.5 block">{resolvedCatReports}</span>
                   </div>
                   <div>
-                    <span className="text-gray-500 font-sans block uppercase text-[9px] tracking-widest">Urgent</span>
+                    <span className="text-gray-500 font-sans block uppercase text-[9px] tracking-widest">{t.urgencyText}</span>
                     <span className="text-red-400 font-mono font-bold text-base mt-0.5 block">{criticalCatCount}</span>
                   </div>
                 </div>
@@ -145,11 +148,11 @@ export default function CaseList({ reports, onSelectReport }: CaseListProps) {
                       <div className="flex items-center justify-between pt-4 mt-4 border-t border-white/5 text-[11px] font-sans text-gray-400">
                         <span className="text-white font-bold flex items-center gap-1">
                           <Users className="w-3.5 h-3.5 text-gray-500" />
-                          {rep.communityScore} signatures
+                          {rep.communityScore} {t.signatures}
                         </span>
                         <span className="flex items-center gap-1 group-hover:text-purple-400 transition-colors">
                           <Eye className="w-3.5 h-3.5" />
-                          <span>Inspect Letter</span>
+                          <span>{t.viewDetails}</span>
                         </span>
                       </div>
                     </div>
@@ -157,7 +160,7 @@ export default function CaseList({ reports, onSelectReport }: CaseListProps) {
                 </div>
               ) : (
                 <div className="text-center py-6 text-gray-600 font-sans text-xs italic">
-                  No active reports filed under this category.
+                  {language === "kn" ? "ಈ ವರ್ಗದ ಅಡಿಯಲ್ಲಿ ಯಾವುದೇ ಸಕ್ರಿಯ ವರದಿಗಳಿಲ್ಲ." : language === "hi" ? "इस श्रेणी के तहत कोई सक्रिय रिपोर्ट नहीं है।" : "No active reports filed under this category."}
                 </div>
               )}
             </div>

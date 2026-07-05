@@ -1,19 +1,23 @@
 import { LayoutDashboard, PlusCircle, Map, History, Bell, Shield } from "lucide-react";
+import { TRANSLATIONS } from "../translations";
 
 interface BottomNavProps {
   currentTab: string;
   setTab: (tab: string) => void;
   unreadCount: number;
+  language?: "en" | "kn" | "hi";
 }
 
-export default function BottomNav({ currentTab, setTab, unreadCount }: BottomNavProps) {
+export default function BottomNav({ currentTab, setTab, unreadCount, language = "en" }: BottomNavProps) {
+  const t = TRANSLATIONS[language];
+
   const tabs = [
-    { id: "dashboard", icon: LayoutDashboard, label: "Dashboard" },
-    { id: "new-report", icon: PlusCircle, label: "Report" },
-    { id: "map", icon: Map, label: "Map" },
-    { id: "cases", icon: History, label: "History" },
-    { id: "authorities", icon: Shield, label: "Authorities" },
-    { id: "notifications", icon: Bell, label: "Alerts", badge: true },
+    { id: "dashboard", icon: LayoutDashboard, label: t.dashboard },
+    { id: "new-report", icon: PlusCircle, label: t.report },
+    { id: "map", icon: Map, label: t.map },
+    { id: "cases", icon: History, label: t.history },
+    { id: "authorities", icon: Shield, label: t.grid },
+    { id: "notifications", icon: Bell, label: t.alerts, badge: true },
   ];
 
   return (
