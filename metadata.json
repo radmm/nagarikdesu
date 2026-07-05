@@ -1,0 +1,6 @@
+{
+  "name": "NagarikAI",
+  "description": "An AI-powered civic issue reporting platform that automatically analyzes complaints, drafts formal legal letters, and alerts city departments.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
