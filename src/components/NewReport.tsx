@@ -22,7 +22,55 @@ export default function NewReport({ onSubmitReport, language = "en" }: NewReport
   const [isLocating, setIsLocating] = useState(false);
   const [location, setLocation] = useState<Coordinates | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const [voiceTextSimulated, setVoiceTextSimulated] = useState(false);
+  const [recognition, setRecognition] = useState<any>(null);
+  const [speechError, setSpeechError] = useState<string | null>(null);
+
+  // Setup Web Speech API for real-time speech-to-text transcription
+  useEffect(() => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const rec = new SpeechRecognition();
+      rec.continuous = true;
+      rec.interimResults = true;
+      rec.lang = language === "kn" ? "kn-IN" : language === "hi" ? "hi-IN" : "en-IN";
+
+      rec.onresult = (event: any) => {
+        let finalTranscript = "";
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript;
+          }
+        }
+        if (finalTranscript) {
+          setSpeechError(null);
+          setDescription((prev) => {
+            const trimmed = prev.trim();
+            return trimmed ? `${trimmed} ${finalTranscript}` : `${prev}${finalTranscript}`;
+          });
+        }
+      };
+
+      rec.onerror = (e: any) => {
+        console.error("Speech recognition error:", e.error, e);
+        let message = "Speech recognition error. Please check your microphone.";
+        if (e.error === "not-allowed") {
+          message = "Microphone access blocked. Please allow microphone permission or click the 'Open in a New Tab' button (top-right of preview window) to bypass iframe security.";
+        } else if (e.error === "network") {
+          message = "Network error. Speech recognition requires an active internet connection.";
+        } else if (e.error === "no-speech") {
+          message = "No speech detected. Please speak closer to your microphone.";
+        }
+        setSpeechError(message);
+        setIsRecording(false);
+      };
+
+      rec.onend = () => {
+        setIsRecording(false);
+      };
+
+      setRecognition(rec);
+    }
+  }, [language]);
 
   // Manual input fields for region/street address and ward/zone overrides
   const [manualRegion, setManualRegion] = useState("");
@@ -169,24 +217,40 @@ export default function NewReport({ onSubmitReport, language = "en" }: NewReport
     setMediaPreview(null);
   };
 
-  // Simulated Voice recording to Text
+  // Real Voice recording to Text using Web Speech API
   const toggleRecording = () => {
     if (isRecording) {
+      if (recognition) {
+        recognition.stop();
+      }
       setIsRecording(false);
-      // Simulate speech recognition output
-      const sampleTranscripts = [
-        "Major power failure in Sector 7. Sparks coming out from the low voltage transformer on the street corner.",
-        "A huge water pipe burst near the transit terminal and it is flooding the whole road.",
-        "Illegal chemical dumping happening under the flyover bridge. Commercial trucks dump garbage at midnight.",
-        "Deep dangerous potholes at Maple & 4th Street intersection causing massive traffic jams and accidents."
-      ];
-      const randomText = sampleTranscripts[Math.floor(Math.random() * sampleTranscripts.length)];
-      setDescription(randomText);
-      setVoiceTextSimulated(true);
     } else {
-      setIsRecording(true);
-      setVoiceTextSimulated(false);
+      setSpeechError(null);
+      if (recognition) {
+        setIsRecording(true);
+        try {
+          recognition.start();
+        } catch (e: any) {
+          console.error(e);
+          setIsRecording(false);
+          setSpeechError("Failed to start speech recognition. " + (e.message || ""));
+        }
+      } else {
+        setSpeechError("Speech recognition (Web Speech API) is not supported or active in your browser context. Please make sure you are in a supported browser (Chrome, Safari, Edge) and not blocking permission.");
+      }
     }
+  };
+
+  const handleSimulateText = () => {
+    setSpeechError(null);
+    const sampleTranscripts = [
+      "Major power failure in Sector 7. Sparks coming out from the low voltage transformer on the street corner.",
+      "A huge water pipe burst near the transit terminal and it is flooding the whole road.",
+      "Illegal chemical dumping happening under the flyover bridge. Commercial trucks dump garbage at midnight.",
+      "Deep dangerous potholes at Maple & 4th Street intersection causing massive traffic jams and accidents."
+    ];
+    const randomText = sampleTranscripts[Math.floor(Math.random() * sampleTranscripts.length)];
+    setDescription(randomText);
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -211,7 +275,6 @@ export default function NewReport({ onSubmitReport, language = "en" }: NewReport
     if (newReport) {
       setDescription("");
       clearMedia();
-      setVoiceTextSimulated(false);
     }
   };
 
@@ -293,6 +356,15 @@ export default function NewReport({ onSubmitReport, language = "en" }: NewReport
             <div className="flex items-center gap-2">
               <button
                 type="button"
+                onClick={handleSimulateText}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full font-sans text-xs font-bold bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 hover:text-purple-300 border border-purple-500/20 transition-all active:scale-95"
+                title="Populate dynamic complaint details instantly for quick testing"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Simulate Text</span>
+              </button>
+              <button
+                type="button"
                 onClick={toggleRecording}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-sans text-xs font-bold transition-all ${
                   isRecording 
@@ -325,22 +397,26 @@ export default function NewReport({ onSubmitReport, language = "en" }: NewReport
               </p>
             </div>
           ) : (
-            <textarea
-              value={description}
-              onChange={(e) => {
-                setDescription(e.target.value);
-                setVoiceTextSimulated(false);
-              }}
-              placeholder={t.textPlaceholder}
-              className="w-full h-32 bg-transparent border-0 focus:ring-0 text-white placeholder-gray-600 font-sans text-sm resize-none"
-              required
-            />
-          )}
-
-          {voiceTextSimulated && (
-            <p className="text-[11px] text-green-400 font-sans flex items-center gap-1.5 italic bg-green-950/20 px-3 py-2 rounded-lg border border-green-500/20">
-              <Sparkles className="w-3.5 h-3.5" /> {t.capturedVoice}
-            </p>
+            <>
+              <textarea
+                value={description}
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                }}
+                placeholder={t.textPlaceholder}
+                className="w-full h-32 bg-transparent border-0 focus:ring-0 text-white placeholder-gray-600 font-sans text-sm resize-none"
+                required
+              />
+              {speechError && (
+                <div className="flex items-start gap-2 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 font-sans text-xs">
+                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-semibold block mb-0.5">Voice Input Restricted:</span>
+                    {speechError}
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
 
@@ -371,12 +447,8 @@ export default function NewReport({ onSubmitReport, language = "en" }: NewReport
         {/* Live Category and Urgency Preview Indicator */}
         {description.trim().length > 4 && (
           <div className="glass-card rounded-2xl p-5 border border-purple-500/30 bg-purple-950/10 space-y-3 relative overflow-hidden">
-            <div className="absolute right-4 top-4 text-purple-400 opacity-20">
-              <Sparkles className="w-12 h-12" />
-            </div>
-            
             <div className="flex items-center gap-1.5 text-purple-400 font-mono text-xs font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5" /> {t.liveParsing}
+              {t.liveParsing}
             </div>
             
             <div className="grid grid-cols-2 gap-4 text-xs">
