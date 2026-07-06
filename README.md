@@ -6,7 +6,7 @@
 
 The `radmm/nagarikdesu` repository contains the source code for **NagarikAI**, a civic advocacy platform designed to bridge the gap between citizens and municipal authorities in Bengaluru, India. The application's primary function is to transform informal citizen complaints (submitted via text or voice) into professionally formatted, legally-coded formal letters addressed to specific government departments.
 
-At its core, the project acts as an automated legal drafting engine. When a user describes a public hazard; such as a pothole, a water main burst, or an illegal dumping site—the system uses Large Language Models (LLMs) to:
+At its core, the project acts as an automated legal drafting engine. When a user describes a public hazard; such as a pothole, a water main burst, or an illegal dumping site; the system uses Large Language Models (LLMs) to:
 1.  **Categorize** the issue into specific domains like "Roads & Infrastructure" or "Public Safety & Law."
 2.  **Assess Urgency** (Routine, Medium, Urgent, or Critical).
 3.  **Route** the complaint to the correct authority, such as the BBMP (Bruhat Bengaluru Mahanagara Palike) or BESCOM (Bangalore Electricity Supply Company).
