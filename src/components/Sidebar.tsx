@@ -1,5 +1,6 @@
 import { SquaresFour, PlusCircle, MapTrifold, Clock, Bell, Shield, Radio } from "@phosphor-icons/react";
 import { TRANSLATIONS } from "../translations";
+import NagarikdesuLogo from "./NagarikdesuLogo";
 
 interface SidebarProps {
   currentTab: string;
@@ -24,13 +25,12 @@ export default function Sidebar({ currentTab, setTab, unreadCount, language = "e
     <aside className="hidden md:flex flex-col w-64 bg-[#0A0A0A]/90 backdrop-blur-md border-r border-white/10 h-screen sticky top-0 p-6 z-40">
       {/* App Branding Header */}
       <div className="flex items-center gap-3 mb-12">
-        <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-white/5 border border-white/10 overflow-visible">
-          <div className="glow-dot glow-purple absolute w-10 h-10 rounded-full opacity-60 blur-md" />
-          <Shield className="w-4 h-4 text-purple-400 relative z-10" weight="duotone" />
+        <div className="relative flex items-center justify-center w-8 h-8 overflow-visible">
+          <NagarikdesuLogo size="w-8 h-8" className="relative z-10 animate-pulse" />
         </div>
         <div className="flex flex-col">
           <span className="font-headline-lg font-mono text-xl tracking-tighter text-white font-bold leading-none">Nagarikdesu</span>
-          <span className="text-[10px] uppercase font-mono tracking-[0.2em] text-purple-400/80">Civic Command</span>
+          <span className="text-[10px] uppercase font-mono tracking-[0.2em] text-red-500 font-semibold mt-0.5">Civic Command</span>
         </div>
       </div>
 

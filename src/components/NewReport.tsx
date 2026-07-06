@@ -356,15 +356,6 @@ export default function NewReport({ onSubmitReport, language = "en" }: NewReport
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={handleSimulateText}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full font-sans text-xs font-bold bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 hover:text-purple-300 border border-purple-500/20 transition-all active:scale-95"
-                title="Populate dynamic complaint details instantly for quick testing"
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Simulate Text</span>
-              </button>
-              <button
-                type="button"
                 onClick={toggleRecording}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-sans text-xs font-bold transition-all ${
                   isRecording 

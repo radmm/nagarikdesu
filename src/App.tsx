@@ -12,6 +12,7 @@ import Heatmap from "./components/Heatmap";
 import NotificationsScreen from "./components/NotificationsScreen";
 import { Shield } from "@phosphor-icons/react";
 import { TRANSLATIONS } from "./translations";
+import NagarikdesuLogo from "./components/NagarikdesuLogo";
 
 export default function App() {
   // Persistence state
@@ -287,9 +288,8 @@ export default function App() {
       {/* Top Universal Control Header (Allows language switching seamlessly) */}
       <header className="border-b border-white/5 bg-[#0A0A0A]/80 backdrop-blur-md px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 z-50 sticky top-0">
         <div className="flex items-center gap-3">
-          <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 overflow-visible">
-            <div className="glow-dot glow-purple absolute w-10 h-10 rounded-full opacity-60 blur-md" />
-            <Shield className="w-4.5 h-4.5 text-purple-400 relative z-10" weight="duotone" />
+          <div className="relative flex items-center justify-center w-9 h-9 overflow-visible">
+            <NagarikdesuLogo size="w-9 h-9" className="relative z-10 animate-pulse" />
           </div>
           <div>
             <h1 className="font-headline-lg font-mono text-lg font-extrabold tracking-tight text-white flex items-center gap-1.5 leading-none">
