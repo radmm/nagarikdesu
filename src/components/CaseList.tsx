@@ -79,7 +79,6 @@ export default function CaseList({ reports, onSelectReport, language = "en" }: C
               <div className="glass-card rounded-2xl p-6 relative overflow-hidden border border-white/5 bg-[#000000]/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div className="flex items-start gap-4">
                   <div className={`w-12 h-12 rounded-full border border-white/10 flex items-center justify-center relative overflow-visible shrink-0 ${cat.iconColor} ${cat.glowColor}`}>
-                    <div className={`glow-dot glow-${cat.color} absolute w-14 h-14 rounded-full opacity-60 blur-md`} />
                     <IconComponent className="w-5 h-5 relative z-10" />
                   </div>
                   <div>

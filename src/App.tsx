@@ -10,7 +10,7 @@ import CaseList from "./components/CaseList";
 import Authorities from "./components/Authorities";
 import Heatmap from "./components/Heatmap";
 import NotificationsScreen from "./components/NotificationsScreen";
-import { Radio } from "@phosphor-icons/react";
+import { Shield } from "@phosphor-icons/react";
 import { TRANSLATIONS } from "./translations";
 
 export default function App() {
@@ -28,6 +28,70 @@ export default function App() {
   const [tab, setTab] = useState<string>("dashboard");
   const [selectedReport, setSelectedReport] = useState<CivicReport | null>(null);
   const [language, setLanguage] = useState<"en" | "kn" | "hi">("en");
+
+  // Dynamic Floating Mountain-Like Gradient Configuration
+  const getMountainStyle = () => {
+    switch (tab) {
+      case "dashboard":
+        return {
+          colors: "from-purple-600/20 via-indigo-600/8 to-transparent",
+          transform: "translate(-15%, 5%) scale(1.3) rotate(-5deg)",
+          height: "h-[50vh]",
+          width: "w-[120vw]"
+        };
+      case "new-report":
+        return {
+          colors: "from-amber-600/20 via-orange-600/8 to-transparent",
+          transform: "translate(15%, 15%) scale(1.4) rotate(10deg)",
+          height: "h-[65vh]",
+          width: "w-[140vw]"
+        };
+      case "case-detail":
+        return {
+          colors: "from-pink-600/20 via-purple-600/8 to-transparent",
+          transform: "translate(-25%, 10%) scale(1.35) rotate(-15deg)",
+          height: "h-[60vh]",
+          width: "w-[130vw]"
+        };
+      case "cases":
+        return {
+          colors: "from-emerald-600/20 via-teal-600/8 to-transparent",
+          transform: "translate(0%, 20%) scale(1.25) rotate(5deg)",
+          height: "h-[55vh]",
+          width: "w-[120vw]"
+        };
+      case "authorities":
+        return {
+          colors: "from-blue-600/20 via-indigo-600/8 to-transparent",
+          transform: "translate(-10%, 5%) scale(1.45) rotate(-8deg)",
+          height: "h-[70vh]",
+          width: "w-[140vw]"
+        };
+      case "map":
+        return {
+          colors: "from-teal-600/20 via-blue-600/8 to-transparent",
+          transform: "translate(20%, 25%) scale(1.3) rotate(12deg)",
+          height: "h-[50vh]",
+          width: "w-[130vw]"
+        };
+      case "notifications":
+        return {
+          colors: "from-rose-600/20 via-red-600/8 to-transparent",
+          transform: "translate(5%, 10%) scale(1.4) rotate(-3deg)",
+          height: "h-[60vh]",
+          width: "w-[135vw]"
+        };
+      default:
+        return {
+          colors: "from-purple-600/20 via-indigo-600/8 to-transparent",
+          transform: "translate(-15%, 5%) scale(1.3) rotate(-5deg)",
+          height: "h-[50vh]",
+          width: "w-[120vw]"
+        };
+    }
+  };
+
+  const mountain = getMountainStyle();
 
   // Sync state to localStorage
   useEffect(() => {
@@ -198,28 +262,26 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white flex flex-col relative overflow-x-hidden select-none">
-      {/* Soft background ambient gradient glows (cross-fading smoothly) */}
-      <div className="absolute top-[-250px] left-1/2 -translate-x-1/2 w-[1000px] h-[800px] pointer-events-none -z-10">
-        {/* Purple glow: Home / Overview (dashboard) */}
-        <div className={`absolute inset-0 bg-gradient-to-b from-purple-600/15 to-transparent rounded-full blur-[160px] transition-opacity duration-1000 ease-in-out ${tab === "dashboard" ? "opacity-100" : "opacity-0"}`} />
-        
-        {/* Yellow/Orange glow: Report New Issue (new-report) */}
-        <div className={`absolute inset-0 bg-gradient-to-b from-amber-500/15 to-transparent rounded-full blur-[160px] transition-opacity duration-1000 ease-in-out ${tab === "new-report" ? "opacity-100" : "opacity-0"}`} />
-        
-        {/* Purple-to-Pink glow: Case Detail (case-detail) */}
-        <div className={`absolute inset-0 bg-gradient-to-b from-pink-600/15 to-transparent rounded-full blur-[160px] transition-opacity duration-1000 ease-in-out ${tab === "case-detail" ? "opacity-100" : "opacity-0"}`} />
-        
-        {/* Green/Emerald glow: Filing History / Cases */}
-        <div className={`absolute inset-0 bg-gradient-to-b from-emerald-600/15 to-transparent rounded-full blur-[160px] transition-opacity duration-1000 ease-in-out ${tab === "cases" ? "opacity-100" : "opacity-0"}`} />
-        
-        {/* Blue glow: Authorities */}
-        <div className={`absolute inset-0 bg-gradient-to-b from-blue-600/15 to-transparent rounded-full blur-[160px] transition-opacity duration-1000 ease-in-out ${tab === "authorities" ? "opacity-100" : "opacity-0"}`} />
-        
-        {/* Blue-Green glow: Map / Heatmap (map) */}
-        <div className={`absolute inset-0 bg-gradient-to-b from-teal-500/15 to-transparent rounded-full blur-[160px] transition-opacity duration-1000 ease-in-out ${tab === "map" ? "opacity-100" : "opacity-0"}`} />
-        
-        {/* Soft Red/Orange glow: Notifications */}
-        <div className={`absolute inset-0 bg-gradient-to-b from-rose-500/15 to-transparent rounded-full blur-[160px] transition-opacity duration-1000 ease-in-out ${tab === "notifications" ? "opacity-100" : "opacity-0"}`} />
+      {/* Dynamic Floating Mountain-Like Gradient Backdrop (Smoothly transitions color, scale, angle, and translation on page change) */}
+      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden bg-[#0A0A0A]">
+        {/* Mountain Shape 1 */}
+        <div 
+          className={`absolute bottom-0 left-1/2 -translate-x-1/2 rounded-[100%] blur-[130px] bg-gradient-to-t ${mountain.colors} transition-all duration-1000 ease-out`}
+          style={{ 
+            width: mountain.width,
+            height: mountain.height,
+            transform: `translate(-50%, 45%) ${mountain.transform.replace('translate(', '').replace(')', '')}`
+          }}
+        />
+        {/* Mountain Shape 2 (Secondary overlapping ridge for depth) */}
+        <div 
+          className={`absolute bottom-0 left-1/2 -translate-x-1/2 rounded-[100%] blur-[160px] bg-gradient-to-t ${mountain.colors} opacity-60 transition-all duration-1000 ease-out delay-75`}
+          style={{ 
+            width: `calc(${mountain.width} * 0.8)`,
+            height: `calc(${mountain.height} * 0.9)`,
+            transform: `translate(-30%, 35%) ${mountain.transform.replace('translate(', '').replace(')', '')} scaleY(0.8) rotate(15deg)`
+          }}
+        />
       </div>
 
       {/* Top Universal Control Header (Allows language switching seamlessly) */}
@@ -227,7 +289,7 @@ export default function App() {
         <div className="flex items-center gap-3">
           <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 overflow-visible">
             <div className="glow-dot glow-purple absolute w-10 h-10 rounded-full opacity-60 blur-md" />
-            <Radio className="w-4.5 h-4.5 text-purple-400 relative z-10" weight="duotone" />
+            <Shield className="w-4.5 h-4.5 text-purple-400 relative z-10" weight="duotone" />
           </div>
           <div>
             <h1 className="font-headline-lg font-mono text-lg font-extrabold tracking-tight text-white flex items-center gap-1.5 leading-none">

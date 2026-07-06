@@ -183,7 +183,6 @@ export default function CaseDetails({ report, onBack, onUpdateReport, language =
       {dept && (
         <section className="glass-card rounded-2xl p-5 flex items-center gap-4">
           <div className={`w-12 h-12 rounded-full border flex items-center justify-center relative overflow-visible shrink-0 ${avatarGlow}`}>
-            <div className={`glow-dot glow-${dept.glowColor} absolute w-14 h-14 rounded-full opacity-60 blur-md`} />
             <Scales className="w-5 h-5 text-white relative z-10" weight="duotone" />
           </div>
           <div className="flex-1 min-w-0">
@@ -300,7 +299,6 @@ export default function CaseDetails({ report, onBack, onUpdateReport, language =
           <div className="glass-card max-w-sm w-full p-6 text-center space-y-4 border border-white/10 shadow-[0_0_50px_rgba(124,58,237,0.3)] bg-[#0C0C0C]/90 relative overflow-hidden">
             <div className="absolute top-[-40px] left-1/2 -translate-x-1/2 w-40 h-40 bg-purple-500/10 rounded-full blur-2xl pointer-events-none" />
             <div className="w-12 h-12 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-400 flex items-center justify-center mx-auto relative overflow-visible">
-              <div className="glow-dot glow-purple absolute w-14 h-14 rounded-full opacity-60 blur-md" />
               <Scales className="w-5 h-5 relative z-10" weight="duotone" />
             </div>
             <h4 className="font-headline-md font-mono text-sm uppercase tracking-widest text-purple-400 font-bold">{t.systemBroadcast}</h4>

@@ -87,7 +87,6 @@ export default function Authorities({ language = "en" }: AuthoritiesProps) {
                 {/* Department Identity Row */}
                 <div className="flex items-center gap-4">
                   <div className={`w-12 h-12 rounded-full border flex items-center justify-center relative overflow-visible shrink-0 ${glowStyles}`}>
-                    <div className={`glow-dot glow-${dept.glowColor} absolute w-14 h-14 rounded-full opacity-60 blur-md`} />
                     <IconComponent className="w-5 h-5 text-white relative z-10" weight="duotone" />
                   </div>
                   <div>

@@ -130,7 +130,6 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport, lang
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-3">
                   <div className={`w-10 h-10 rounded-full border flex items-center justify-center relative overflow-visible ${glowColorsMap[getGlowColor(activeCase.category)]}`}>
-                    <div className={`glow-dot glow-${getGlowColor(activeCase.category)} absolute w-12 h-12 rounded-full opacity-60 blur-md`} />
                     <Scales className="w-4 h-4 text-white relative z-10" weight="duotone" />
                   </div>
                   <div>
@@ -199,7 +198,6 @@ export default function Dashboard({ reports, onReportIssue, onSelectReport, lang
                 return (
                   <div key={rep.id} className="flex items-center gap-2 group">
                     <div className={`w-9 h-9 rounded-full border flex items-center justify-center text-xs text-white font-mono font-bold relative overflow-visible ${colors[colIdx]} ${glow[colIdx]}`}>
-                      <div className={`glow-dot glow-${glowNames[colIdx]} absolute w-10 h-10 rounded-full opacity-50 blur-md`} />
                       <span className="relative z-10">{rep.reporterName.split(" ").map(n => n[0]).join("")}</span>
                     </div>
                     <div className="hidden sm:block">

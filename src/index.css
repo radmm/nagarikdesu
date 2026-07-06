@@ -12,7 +12,6 @@
     background-color: rgba(20, 20, 20, 0.6);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 24px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -20,7 +19,6 @@
 
   .glass-card:hover {
     background-color: rgba(28, 28, 28, 0.75);
-    border-color: rgba(255, 255, 255, 0.15);
   }
 
   @keyframes fadeIn {
@@ -56,4 +54,17 @@
   .glow-yellow { background: #eab308; }
   .glow-purple { background: #7c3aed; }
 }
+
+/* Global override to remove all borders from all sections and elements */
+*, *::before, *::after {
+  border-width: 0px !important;
+  border-color: transparent !important;
+  box-shadow: none !important; /* Remove harsh outline shadows if any */
+}
+
+/* Keep standard box-shadow on cards but remove borders */
+.glass-card {
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+}
+
 

@@ -26,7 +26,7 @@ export default function Sidebar({ currentTab, setTab, unreadCount, language = "e
       <div className="flex items-center gap-3 mb-12">
         <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-white/5 border border-white/10 overflow-visible">
           <div className="glow-dot glow-purple absolute w-10 h-10 rounded-full opacity-60 blur-md" />
-          <Radio className="w-4 h-4 text-purple-400 relative z-10" weight="duotone" />
+          <Shield className="w-4 h-4 text-purple-400 relative z-10" weight="duotone" />
         </div>
         <div className="flex flex-col">
           <span className="font-headline-lg font-mono text-xl tracking-tighter text-white font-bold leading-none">Nagarikdesu</span>

@@ -74,7 +74,6 @@ export default function NotificationsScreen({ alerts, onMarkRead, onMarkAllRead,
                 <div className="flex items-start gap-4">
                   {/* Glowing circular avatar placeholder for notifications */}
                   <div className={`w-10 h-10 rounded-full border flex items-center justify-center relative overflow-visible shrink-0 ${glowStyles}`}>
-                    <div className={`glow-dot glow-${alert.glowColor} absolute w-12 h-12 rounded-full opacity-60 blur-md`} />
                     <IconComponent className="w-4 h-4 relative z-10" />
                   </div>
 
